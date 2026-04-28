@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans, sans-serif); background: transparent; }
+
+.org-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1.5rem 0;
+}
+
+.org-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 600px;
+}
+
+.level {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  width: 100%;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.node:hover .box { border-color: var(--color-border-primary); background: var(--color-background-secondary); }
+.node:hover { transform: translateY(-2px); }
+
+.box {
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg, 12px);
+  background: var(--color-background-primary);
+  padding: 10px 16px;
+  text-align: center;
+  min-width: 130px;
+  max-width: 160px;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+
+.box.level-0 {
+  background: var(--color-background-info);
+  border-color: var(--color-border-info);
+  min-width: 160px;
+}
+.box.level-1 {
+  background: var(--color-background-secondary);
+  min-width: 140px;
+}
+.box.level-2 {
+  min-width: 120px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 auto 8px;
+}
+.avatar.blue { background: var(--color-background-info); color: var(--color-text-info); }
+.avatar.teal { background: #E1F5EE; color: #0F6E56; }
+.avatar.purple { background: #EEEDFE; color: #534AB7; }
+.avatar.coral { background: #FAECE7; color: #993C1D; }
+.avatar.gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+.role {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+/* connector lines */
+.connector-down {
+  width: 1px;
+  background: var(--color-border-tertiary);
+  height: 24px;
+}
+.connector-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+.connector-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--line-left, 20%);
+  right: var(--line-right, 20%);
+  height: 1px;
+  background: var(--color-border-tertiary);
+}
+.connector-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.connector-branch-line {
+  width: 1px;
+  height: 20px;
+  background: var(--color-border-tertiary);
+}
+
+/* tooltip */
+.tooltip {
+  position: fixed;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md, 8px);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  z-index: 100;
+  max-width: 200px;
+  line-height: 1.5;
+  display: none;
+  box-shadow: none;
+}
+.tooltip .tip-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+</style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:MediaServiceImageTags msdt:dt="string"></mso:MediaServiceImageTags>
+<mso:lcf76f155ced4ddcb4097134ff3c332f msdt:dt="string"></mso:lcf76f155ced4ddcb4097134ff3c332f>
+<mso:TaxCatchAll msdt:dt="string"></mso:TaxCatchAll>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Organigrama de ejemplo con tres niveles jerárquicos</h2>
+
+<div class="tooltip" id="tooltip">
+  <div class="tip-name" id="tip-name"></div>
+  <div id="tip-info"></div>
+</div>
+
+<div class="org-container">
+  <div class="org-tree" id="tree"></div>
+</div>
+
+<script>
+const data = {
+  name: "Ana Martínez",
+  role: "Directora General",
+  dept: "CEO",
+  initials: "AM",
+  color: "blue",
+  info: "Responsable de la estrategia y dirección general de la empresa.",
+  children: [
+    {
+      name: "Carlos López",
+      role: "Director de Tecnología",
+      dept: "CTO",
+      initials: "CL",
+      color: "teal",
+      info: "Lidera el área de desarrollo e infraestructura tecnológica.",
+      children: [
+        { name: "Sofía Ruiz", role: "Desarrollo Frontend", initials: "SR", color: "gray", info: "Especialista en interfaces y experiencia de usuario." },
+        { name: "Tomás Gil", role: "Desarrollo Backend", initials: "TG", color: "gray", info: "Sistemas, APIs y bases de datos." },
+        { name: "Valeria Paz", role: "DevOps", initials: "VP", color: "gray", info: "Infraestructura y procesos de despliegue." }
+      ]
+    },
+    {
+      name: "Lucía Ferreira",
+      role: "Directora de RRHH",
+      dept: "CHRO",
+      initials: "LF",
+      color: "purple",
+      info: "Gestión del talento, cultura organizacional y bienestar.",
+      children: [
+        { name: "Matías Ríos", role: "Selección y Empleo", initials: "MR", color: "gray", info: "Reclutamiento y procesos de incorporación." },
+        { name: "Camila Torres", role: "Capacitación", initials: "CT", color: "gray", info: "Desarrollo profesional y formación interna." }
+      ]
+    },
+    {
+      name: "Sergio Blanco",
+      role: "Director Comercial",
+      dept: "CCO",
+      initials: "SB",
+      color: "coral",
+      info: "Ventas, cuentas clave y desarrollo de negocio.",
+      children: [
+        { name: "Mónica Vera", role: "Ventas Regionales", initials: "MV", color: "gray", info: "Gestión de clientes en la región." },
+        { name: "Rodrigo Díaz", role: "Marketing", initials: "RD", color: "gray", info: "Estrategia de marca y comunicación." },
+        { name: "Elena Sosa", role: "Atención al Cliente", initials: "ES", color: "gray", info: "Soporte y fidelización de clientes." }
+      ]
+    }
+  ]
+};
+
+function makeBox(person, level) {
+  const node = document.createElement('div');
+  node.className = 'node';
+
+  const box = document.createElement('div');
+  box.className = `box level-${level}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = `avatar ${person.color}`;
+  avatar.textContent = person.initials;
+
+  const name = document.createElement('div');
+  name.className = 'name';
+  name.textContent = person.name;
+
+  const role = document.createElement('div');
+  role.className = 'role';
+  role.textContent = person.role;
+
+  box.appendChild(avatar);
+  box.appendChild(name);
+  box.appendChild(role);
+  node.appendChild(box);
+
+  node.addEventListener('mouseenter', (e) => showTip(e, person));
+  node.addEventListener('mousemove', (e) => moveTip(e));
+  node.addEventListener('mouseleave', hideTip);
+
+  return node;
+}
+
+function showTip(e, person) {
+  const tip = document.getElementById('tooltip');
+  document.getElementById('tip-name').textContent = person.name;
+  document.getElementById('tip-info').textContent = person.info || person.role;
+  tip.style.display = 'block';
+  moveTip(e);
+}
+function moveTip(e) {
+  const tip = document.getElementById('tooltip');
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top = (e.clientY - 10) + 'px';
+}
+function hideTip() {
+  document.getElementById('tooltip').style.display = 'none';
+}
+
+function buildTree(container, rootPerson) {
+  // Level 0: root
+  const rootWrap = document.createElement('div');
+  rootWrap.style.display = 'flex';
+  rootWrap.style.flexDirection = 'column';
+  rootWrap.style.alignItems = 'center';
+
+  const rootNode = makeBox(rootPerson, 0);
+  rootWrap.appendChild(rootNode);
+
+  if (rootPerson.children && rootPerson.children.length) {
+    // vertical line down from root
+    const vLine = document.createElement('div');
+    vLine.className = 'connector-down';
+    rootWrap.appendChild(vLine);
+
+    // horizontal bar
+    const hBar = document.createElement('div');
+    hBar.style.cssText = 'width:100%;display:flex;justify-content:center;position:relative;';
+    const hLine = document.createElement('div');
+    hLine.style.cssText = 'position:absolute;top:0;height:1px;background:var(--color-border-tertiary);';
+    hBar.appendChild(hLine);
+    rootWrap.appendChild(hBar);
+
+    // children row
+    const childRow = document.createElement('div');
+    childRow.className = 'level';
+    childRow.style.marginTop = '0';
+
+    rootPerson.children.forEach(child => {
+      const branchWrap = document.createElement('div');
+      branchWrap.className = 'connector-branch';
+
+      const branchLine = document.createElement('div');
+      branchLine.className = 'connector-branch-line';
+      branchWrap.appendChild(branchLine);
+
+      const childBox = makeBox(child, 1);
+      branchWrap.appendChild(childBox);
+
+      // grandchildren
+      if (child.children && child.children.length) {
+        const gcVLine = document.createElement('div');
+        gcVLine.className = 'connector-down';
+        gcVLine.style.height = '20px';
+        branchWrap.appendChild(gcVLine);
+
+        const gcHBar = document.createElement('div');
+        gcHBar.style.cssText = 'width:100%;display:flex;justify-content:center;position:relative;';
+        const gcHLine = document.createElement('div');
+        gcHLine.style.cssText = 'position:absolute;top:0;height:1px;background:var(--color-border-tertiary);';
+        gcHBar.appendChild(gcHLine);
+        branchWrap.appendChild(gcHBar);
+
+        const gcRow = document.createElement('div');
+        gcRow.className = 'level';
+        gcRow.style.gap = '8px';
+
+        child.children.forEach(gc => {
+          const gcBranch = document.createElement('div');
+          gcBranch.className = 'connector-branch';
+          const gcBLine = document.createElement('div');
+          gcBLine.className = 'connector-branch-line';
+          gcBranch.appendChild(gcBLine);
+          gcBranch.appendChild(makeBox(gc, 2));
+          gcRow.appendChild(gcBranch);
+        });
+
+        branchWrap.appendChild(gcRow);
+
+        // update horizontal line after render
+        requestAnimationFrame(() => {
+          const gcBoxes = gcRow.querySelectorAll('.box');
+          if (gcBoxes.length > 1) {
+            const first = gcBoxes[0].getBoundingClientRect();
+            const last = gcBoxes[gcBoxes.length-1].getBoundingClientRect();
+            const rowRect = gcHBar.getBoundingClientRect();
+            const l = first.left + first.width/2 - rowRect.left;
+            const r = rowRect.right - (last.left + last.width/2);
+            gcHLine.style.left = l + 'px';
+            gcHLine.style.right = r + 'px';
+          } else {
+            gcHLine.style.left = '50%';
+            gcHLine.style.right = '50%';
+          }
+        });
+      }
+
+      childRow.appendChild(branchWrap);
+    });
+
+    rootWrap.appendChild(childRow);
+
+    // update root horizontal line after render
+    requestAnimationFrame(() => {
+      const childBoxes = childRow.querySelectorAll('.level > .connector-branch > .box');
+      if (childBoxes.length > 1) {
+        const first = childBoxes[0].getBoundingClientRect();
+        const last = childBoxes[childBoxes.length-1].getBoundingClientRect();
+        const rowRect = hBar.getBoundingClientRect();
+        const l = first.left + first.width/2 - rowRect.left;
+        const r = rowRect.right - (last.left + last.width/2);
+        hLine.style.left = l + 'px';
+        hLine.style.right = r + 'px';
+      }
+    });
+  }
+
+  container.appendChild(rootWrap);
+}
+
+buildTree(document.getElementById('tree'), data);
+</script>
+</body>
+</html>
