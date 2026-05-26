@@ -19,7 +19,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:#333;-webkit-font-s
 
 /* ── MOUNTAIN WRAPPER ── */
 .mtn-wrap{width:100%;overflow:hidden;background:var(--bg)}
-.mtn-scene{position:relative;width:1240px;height:690px;margin:0 auto;transform-origin:top left}
+.mtn-scene{position:relative;width:1240px;height:690px;margin:0 auto}
 .mtn-bg{position:absolute;inset:0;width:100%;height:100%}
 .path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:10;overflow:visible}
 
@@ -496,8 +496,9 @@ const SCENE_W = 1240, SCENE_H = 690;
 const wrap = document.querySelector('.mtn-wrap');
 const scene = document.querySelector('.mtn-scene');
 function scaleScene() {
-  const scale = Math.min(1, wrap.clientWidth / SCENE_W);
-  scene.style.transform = `scale(${scale})`;
+  const available = document.documentElement.clientWidth || window.innerWidth;
+  const scale = Math.min(1, available / SCENE_W);
+  scene.style.zoom = scale;
   wrap.style.height = Math.round(SCENE_H * scale) + 'px';
 }
 scaleScene();
