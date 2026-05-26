@@ -15,11 +15,11 @@
   --bg:#EFF6FC;--fg2:#5a6a80;
   --sans:'Rubik',sans-serif;--cond:'Asap Condensed',sans-serif;
 }
-html,body{font-family:var(--sans);background:var(--bg);color:#333;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100%}
+html,body{font-family:var(--sans);background:var(--bg);color:#333;-webkit-font-smoothing:antialiased;overflow:hidden;width:100%;max-width:100%}
 
 /* ── MOUNTAIN WRAPPER ── */
-.mtn-wrap{width:100%;overflow:hidden;background:var(--bg)}
-.mtn-scene{position:relative;width:1240px;height:690px;margin:0 auto}
+.mtn-wrap{position:relative;width:100%;overflow:hidden;background:var(--bg);padding-bottom:55.6452%}
+.mtn-scene{position:absolute;top:0;left:0;width:1240px;height:690px;transform-origin:top left}
 .mtn-bg{position:absolute;inset:0;width:100%;height:100%}
 .path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:10;overflow:visible}
 
@@ -496,10 +496,8 @@ const SCENE_W = 1240, SCENE_H = 690;
 const wrap = document.querySelector('.mtn-wrap');
 const scene = document.querySelector('.mtn-scene');
 function scaleScene() {
-  const available = document.documentElement.clientWidth || window.innerWidth;
-  const scale = Math.min(1, available / SCENE_W);
-  scene.style.zoom = scale;
-  wrap.style.height = Math.round(SCENE_H * scale) + 'px';
+  const scale = wrap.clientWidth / SCENE_W;
+  scene.style.transform = 'scale(' + scale + ')';
 }
 scaleScene();
 window.addEventListener('resize', scaleScene);
