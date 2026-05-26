@@ -340,8 +340,6 @@ html,body{font-family:var(--sans);background:var(--bg);color:#333;-webkit-font-s
   <p class="hint">Hacé clic en cualquier rol para ver sus responsabilidades, competencias y habilidades técnicas</p>
 </div>
 </div>
-<p class="hint" style="padding-top:4px;padding-bottom:16px;font-size:9px;opacity:.55">Versión 3.0 · Junio 2026</p>
-
 <!-- MODAL -->
 <div class="overlay" id="overlay" onclick="closeOv(event)">
   <div class="modal" id="modal">
@@ -496,8 +494,9 @@ const SCENE_W = 1240, SCENE_H = 690;
 const wrap = document.querySelector('.mtn-wrap');
 const scene = document.querySelector('.mtn-scene');
 function scaleScene() {
-  const scale = wrap.clientWidth / SCENE_W;
+  const scale = Math.min(1, wrap.clientWidth / SCENE_W);
   scene.style.transform = 'scale(' + scale + ')';
+  wrap.style.paddingBottom = Math.round(SCENE_H * scale) / (wrap.clientWidth || 1) * 100 + '%';
 }
 scaleScene();
 window.addEventListener('resize', scaleScene);
