@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp
     xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -13,7 +13,7 @@
   <DisplayName DefaultValue="Firma IA" />
   <Description DefaultValue="Inserta la firma corporativa de Inteligencia Analitica en el correo que estas redactando." />
   <IconUrl DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-32.png" />
-  <HighResIconUrl DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-80.png" />
+  <HighResolutionIconUrl DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-80.png" />
   <SupportUrl DefaultValue="https://www.inteligenciaanalitica.com" />
 
   <AppDomains>
@@ -100,72 +100,5 @@
         <bt:String id="InsertSignature.Tooltip" DefaultValue="Inserta la firma corporativa de Inteligencia Analitica en este correo." />
       </bt:LongStrings>
     </Resources>
-
-    <!--
-      Bloque anidado V1_1: es donde vive WebApplicationInfo (necesario para la
-      autenticacion con Microsoft Graph). Duplica Hosts/Resources porque asi
-      lo exige el esquema de Outlook para mantener compatibilidad con clientes viejos.
-    -->
-    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-      <Requirements>
-        <bt:Sets DefaultMinVersion="1.5">
-          <bt:Set Name="Mailbox" />
-        </bt:Sets>
-      </Requirements>
-      <Hosts>
-        <Host xsi:type="MailHost">
-          <DesktopFormFactor>
-            <FunctionFile resid="Commands.Url" />
-            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
-              <OfficeTab id="TabDefault">
-                <Group id="msgComposeGroup">
-                  <Label resid="GroupLabel" />
-                  <Control xsi:type="Button" id="msgComposeInsertSignature">
-                    <Label resid="InsertSignature.Label" />
-                    <Supertip>
-                      <Title resid="InsertSignature.Label" />
-                      <Description resid="InsertSignature.Tooltip" />
-                    </Supertip>
-                    <Icon>
-                      <bt:Image size="16" resid="icon-16" />
-                      <bt:Image size="32" resid="icon-32" />
-                      <bt:Image size="80" resid="icon-80" />
-                    </Icon>
-                    <Action xsi:type="ExecuteFunction">
-                      <FunctionName>insertSignature</FunctionName>
-                    </Action>
-                  </Control>
-                </Group>
-              </OfficeTab>
-            </ExtensionPoint>
-          </DesktopFormFactor>
-        </Host>
-      </Hosts>
-      <Resources>
-        <bt:Images>
-          <bt:Image id="icon-16" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-16.png" />
-          <bt:Image id="icon-32" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-32.png" />
-          <bt:Image id="icon-80" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-80.png" />
-        </bt:Images>
-        <bt:Urls>
-          <bt:Url id="Commands.Url" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/commands.html" />
-        </bt:Urls>
-        <bt:ShortStrings>
-          <bt:String id="GroupLabel" DefaultValue="Firma corporativa" />
-          <bt:String id="InsertSignature.Label" DefaultValue="Insertar firma" />
-        </bt:ShortStrings>
-        <bt:LongStrings>
-          <bt:String id="InsertSignature.Tooltip" DefaultValue="Inserta la firma corporativa de Inteligencia Analitica en este correo." />
-        </bt:LongStrings>
-      </Resources>
-
-      <WebApplicationInfo>
-        <Id>8100d731-7de2-416e-a112-a6c62a361a9a</Id>
-        <Resource>api://inteligenciaanalitica.github.io/8100d731-7de2-416e-a112-a6c62a361a9a</Resource>
-        <Scopes>
-          <Scope>User.Read</Scope>
-        </Scopes>
-      </WebApplicationInfo>
-    </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
