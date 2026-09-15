@@ -1,7 +1,6 @@
 /* global Office, OfficeRuntime */
 
-// ⚠️ Reemplazar por el Application (client) ID real una vez registrada la app en Entra ID
-const AAD_APP_CLIENT_ID = "REEMPLAZAR-CON-APPLICATION-ID";
+const AAD_APP_CLIENT_ID = "8100d731-7de2-416e-a112-a6c62a361a9a";
 
 const LOGO_URL =
   "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/logo-horizontal-transparente.png";

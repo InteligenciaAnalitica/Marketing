@@ -159,10 +159,9 @@
         </bt:LongStrings>
       </Resources>
 
-      <!-- Reemplazar {APPLICATION_ID} por el Application (client) ID de la app registrada en Entra ID -->
       <WebApplicationInfo>
-        <Id>{APPLICATION_ID}</Id>
-        <Resource>api://inteligenciaanalitica.github.io/{APPLICATION_ID}</Resource>
+        <Id>8100d731-7de2-416e-a112-a6c62a361a9a</Id>
+        <Resource>api://inteligenciaanalitica.github.io/8100d731-7de2-416e-a112-a6c62a361a9a</Resource>
         <Scopes>
           <Scope>User.Read</Scope>
         </Scopes>
