@@ -35,7 +35,10 @@ async function insertSignature(event) {
 
   const html = construirFirmaHtml(displayName, jobTitle);
 
-  Office.context.mailbox.item.body.setSignatureAsync(
+  // setSelectedDataAsync inserta justo en la posicion del cursor (o reemplaza
+  // la seleccion actual), a diferencia de setSignatureAsync que trata la firma
+  // como una zona fija y termina pegandola al final de todo el hilo citado.
+  Office.context.mailbox.item.body.setSelectedDataAsync(
     html,
     { coercionType: Office.CoercionType.Html },
     (result) => {
