@@ -11,8 +11,9 @@ Office.onReady(() => {
 });
 
 Office.actions.associate("insertSignature", insertSignature);
+Office.actions.associate("autoInsertSignature", autoInsertSignature);
 
-async function insertSignature(event) {
+async function obtenerNombreYPuesto() {
   let displayName = "";
   let jobTitle = "";
 
@@ -33,17 +34,40 @@ async function insertSignature(event) {
     // seguimos igual, la firma se arma solo con lo que Office.js ya sabe (nombre)
   }
 
+  return { displayName, jobTitle };
+}
+
+// Botón "Insertar firma": inserta en la posición del cursor. Sirve para
+// volver a insertarla a mano, o para clientes donde el evento automático
+// todavía no esté disponible.
+async function insertSignature(event) {
+  const { displayName, jobTitle } = await obtenerNombreYPuesto();
   const html = construirFirmaHtml(displayName, jobTitle);
 
-  // setSelectedDataAsync inserta justo en la posicion del cursor (o reemplaza
-  // la seleccion actual), a diferencia de setSignatureAsync que trata la firma
-  // como una zona fija y termina pegandola al final de todo el hilo citado.
   Office.context.mailbox.item.body.setSelectedDataAsync(
     html,
     { coercionType: Office.CoercionType.Html },
     (result) => {
       if (result.status === Office.AsyncResultStatus.Failed) {
         console.log("Error al insertar la firma:", result.error.message);
+      }
+      event.completed();
+    }
+  );
+}
+
+// Se dispara solo al abrir un correo nuevo, una respuesta o un reenvío
+// (Responder y Responder a todos usan el mismo tipo de evento "reply").
+async function autoInsertSignature(event) {
+  const { displayName, jobTitle } = await obtenerNombreYPuesto();
+  const html = construirFirmaHtml(displayName, jobTitle);
+
+  Office.context.mailbox.item.body.setSignatureAsync(
+    html,
+    { coercionType: Office.CoercionType.Html },
+    (result) => {
+      if (result.status === Office.AsyncResultStatus.Failed) {
+        console.log("Error al insertar la firma automática:", result.error.message);
       }
       event.completed();
     }

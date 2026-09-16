@@ -26,8 +26,8 @@
   </Hosts>
 
   <Requirements>
-    <Sets>
-      <Set Name="Mailbox" MinVersion="1.5" />
+    <Sets DefaultMinVersion="1.5">
+      <Set Name="Mailbox" />
     </Sets>
   </Requirements>
 
@@ -48,57 +48,77 @@
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
 
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
-    <Requirements>
-      <bt:Sets DefaultMinVersion="1.5">
-        <bt:Set Name="Mailbox" />
-      </bt:Sets>
-    </Requirements>
-    <Hosts>
-      <Host xsi:type="MailHost">
-        <DesktopFormFactor>
-          <FunctionFile resid="Commands.Url" />
-          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
-            <OfficeTab id="TabDefault">
-              <Group id="msgComposeGroup">
-                <Label resid="GroupLabel" />
-                <Control xsi:type="Button" id="msgComposeInsertSignature">
-                  <Label resid="InsertSignature.Label" />
-                  <Supertip>
-                    <Title resid="InsertSignature.Label" />
-                    <Description resid="InsertSignature.Tooltip" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="icon-16" />
-                    <bt:Image size="32" resid="icon-32" />
-                    <bt:Image size="80" resid="icon-80" />
-                  </Icon>
-                  <Action xsi:type="ExecuteFunction">
-                    <FunctionName>insertSignature</FunctionName>
-                  </Action>
-                </Control>
-              </Group>
-            </OfficeTab>
-          </ExtensionPoint>
-        </DesktopFormFactor>
-      </Host>
-    </Hosts>
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.10">
+          <bt:Set Name="Mailbox" />
+        </bt:Sets>
+      </Requirements>
 
-    <Resources>
-      <bt:Images>
-        <bt:Image id="icon-16" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-16.png" />
-        <bt:Image id="icon-32" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-32.png" />
-        <bt:Image id="icon-80" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-80.png" />
-      </bt:Images>
-      <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/commands.html" />
-      </bt:Urls>
-      <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Firma corporativa" />
-        <bt:String id="InsertSignature.Label" DefaultValue="Insertar firma" />
-      </bt:ShortStrings>
-      <bt:LongStrings>
-        <bt:String id="InsertSignature.Tooltip" DefaultValue="Inserta la firma corporativa de Inteligencia Analitica en este correo." />
-      </bt:LongStrings>
-    </Resources>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <!-- Runtime compartido: lo usan tanto el boton (ExecuteFunction) como el evento automatico (LaunchEvent) -->
+          <Runtimes>
+            <Runtime resid="Commands.Url">
+              <Override type="javascript" resid="Commands.Js.Url" />
+            </Runtime>
+          </Runtimes>
+
+          <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url" />
+
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="msgComposeGroup">
+                  <Label resid="GroupLabel" />
+                  <Control xsi:type="Button" id="msgComposeInsertSignature">
+                    <Label resid="InsertSignature.Label" />
+                    <Supertip>
+                      <Title resid="InsertSignature.Label" />
+                      <Description resid="InsertSignature.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="icon-16" />
+                      <bt:Image size="32" resid="icon-32" />
+                      <bt:Image size="80" resid="icon-80" />
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>insertSignature</FunctionName>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+            <!-- Se dispara solo al abrir Nuevo correo, Responder o Reenviar -->
+            <ExtensionPoint xsi:type="LaunchEvent">
+              <LaunchEvents>
+                <LaunchEvent Type="OnNewMessageCompose" FunctionName="autoInsertSignature" />
+              </LaunchEvents>
+              <SourceLocation resid="Commands.Url" />
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+
+      <Resources>
+        <bt:Images>
+          <bt:Image id="icon-16" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-16.png" />
+          <bt:Image id="icon-32" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-32.png" />
+          <bt:Image id="icon-80" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/assets/icon-80.png" />
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Commands.Url" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/commands.html" />
+          <bt:Url id="Commands.Js.Url" DefaultValue="https://inteligenciaanalitica.github.io/Marketing/addin/commands.js" />
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="Firma corporativa" />
+          <bt:String id="InsertSignature.Label" DefaultValue="Insertar firma" />
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="InsertSignature.Tooltip" DefaultValue="Inserta la firma corporativa de Inteligencia Analitica en este correo." />
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
