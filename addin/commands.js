@@ -4,7 +4,8 @@ const AAD_APP_CLIENT_ID = "8100d731-7de2-416e-a112-a6c62a361a9a";
 
 const LOGO_URL =
   "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/logo-horizontal-transparente.png";
-const WHATSAPP_ICON_URL = "https://img.icons8.com/ios-glyphs/32/003580/whatsapp.png";
+const WHATSAPP_ICON_URL =
+  "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/whatsapp-icon.png";
 const SITE_URL = "https://www.inteligenciaanalitica.com";
 
 Office.onReady(() => {
@@ -167,7 +168,7 @@ function construirFilaWhatsapp(mobilePhone) {
       <tr>
         <td style="padding-top:1px;line-height:16px;font-family:Calibri,Arial,sans-serif;">
           <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;color:#5d6470;font-size:12px;white-space:nowrap;">
-            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:-2px;border:0;margin-right:5px;">
+            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:-3px;border:0;margin-right:5px;">
             <span style="vertical-align:middle;">${telefonoVisible}</span>
           </a>
         </td>
