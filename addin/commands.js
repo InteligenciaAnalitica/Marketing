@@ -127,9 +127,9 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
   const filaWhatsapp = construirFilaWhatsapp(mobilePhone);
 
   return `
-    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:6px;font-family:Calibri,Arial,sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:0;font-family:Calibri,Arial,sans-serif;">
       <tr>
-        <td style="padding-top:4px;padding-bottom:8px;">
+        <td style="padding-top:2px;padding-bottom:8px;">
           <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
             <img src="${LOGO_URL}" width="110" style="display:block;height:auto;border:0;outline:none;" alt="Inteligencia Analitica">
           </a>
@@ -166,10 +166,18 @@ function construirFilaWhatsapp(mobilePhone) {
 
   return `
       <tr>
-        <td style="padding-top:1px;line-height:16px;font-family:Calibri,Arial,sans-serif;">
-          <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;color:#5d6470;font-size:12px;white-space:nowrap;">
-            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:-3px;border:0;margin-right:5px;">
-            <span style="vertical-align:middle;">${telefonoVisible}</span>
+        <td style="padding-top:1px;font-family:Calibri,Arial,sans-serif;">
+          <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;">
+            <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              <tr>
+                <td valign="middle" style="padding-right:5px;">
+                  <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:block;border:0;">
+                </td>
+                <td valign="middle" style="color:#5d6470;font-size:12px;line-height:14px;white-space:nowrap;">
+                  ${telefonoVisible}
+                </td>
+              </tr>
+            </table>
           </a>
         </td>
       </tr>`;
