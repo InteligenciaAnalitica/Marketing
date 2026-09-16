@@ -4,6 +4,7 @@ const AAD_APP_CLIENT_ID = "8100d731-7de2-416e-a112-a6c62a361a9a";
 
 const LOGO_URL =
   "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/logo-horizontal-transparente.png";
+const WHATSAPP_ICON_URL = "https://img.icons8.com/ios-glyphs/32/5d6470/whatsapp.png";
 const SITE_URL = "https://www.inteligenciaanalitica.com";
 
 Office.onReady(() => {
@@ -13,9 +14,10 @@ Office.onReady(() => {
 Office.actions.associate("insertSignature", insertSignature);
 Office.actions.associate("autoInsertSignature", autoInsertSignature);
 
-async function obtenerNombreYPuesto() {
+async function obtenerDatosPerfil() {
   let displayName = "";
   let jobTitle = "";
+  let mobilePhone = "";
 
   try {
     displayName = Office.context.mailbox.userProfile.displayName || "";
@@ -28,21 +30,22 @@ async function obtenerNombreYPuesto() {
     if (perfil) {
       displayName = perfil.displayName || displayName;
       jobTitle = perfil.jobTitle || "";
+      mobilePhone = perfil.mobilePhone || "";
     }
   } catch (e) {
     console.log("No se pudo leer el perfil desde Microsoft Graph:", e);
     // seguimos igual, la firma se arma solo con lo que Office.js ya sabe (nombre)
   }
 
-  return { displayName, jobTitle };
+  return { displayName, jobTitle, mobilePhone };
 }
 
 // Botón "Insertar firma": inserta en la posición del cursor. Sirve para
 // volver a insertarla a mano, o para clientes donde el evento automático
 // todavía no esté disponible.
 async function insertSignature(event) {
-  const { displayName, jobTitle } = await obtenerNombreYPuesto();
-  const html = construirFirmaHtml(displayName, jobTitle);
+  const { displayName, jobTitle, mobilePhone } = await obtenerDatosPerfil();
+  const html = construirFirmaHtml(displayName, jobTitle, mobilePhone);
 
   Office.context.mailbox.item.body.setSelectedDataAsync(
     html,
@@ -59,8 +62,8 @@ async function insertSignature(event) {
 // Se dispara solo al abrir un correo nuevo, una respuesta o un reenvío
 // (Responder y Responder a todos usan el mismo tipo de evento "reply").
 async function autoInsertSignature(event) {
-  const { displayName, jobTitle } = await obtenerNombreYPuesto();
-  const html = construirFirmaHtml(displayName, jobTitle);
+  const { displayName, jobTitle, mobilePhone } = await obtenerDatosPerfil();
+  const html = construirFirmaHtml(displayName, jobTitle, mobilePhone);
 
   Office.context.mailbox.item.body.setSignatureAsync(
     html,
@@ -104,7 +107,7 @@ async function obtenerPerfilDesdeGraph() {
   }
 
   const respuesta = await fetch(
-    "https://graph.microsoft.com/v1.0/me?$select=displayName,jobTitle,mail",
+    "https://graph.microsoft.com/v1.0/me?$select=displayName,jobTitle,mail,mobilePhone",
     {
       headers: { Authorization: `Bearer ${tokenResponse.accessToken}` },
     }
@@ -117,9 +120,10 @@ async function obtenerPerfilDesdeGraph() {
   return await respuesta.json();
 }
 
-function construirFirmaHtml(displayName, jobTitle) {
+function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
   const nombre = escaparHtml(displayName || "");
   const puesto = escaparHtml(jobTitle || "");
+  const filaWhatsapp = construirFilaWhatsapp(mobilePhone);
 
   return `
     <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:14px;font-family:Calibri,Arial,sans-serif;">
@@ -137,6 +141,7 @@ function construirFirmaHtml(displayName, jobTitle) {
           <span style="color:#5d6470;">${puesto}</span>
         </td>
       </tr>
+      ${filaWhatsapp}
       <tr>
         <td style="color:#5d6470;font-size:12px;line-height:20px;padding-top:2px;font-family:Calibri,Arial,sans-serif;">
           <a href="${SITE_URL}" target="_blank" style="text-decoration:none;color:#5d6470;">
@@ -146,6 +151,27 @@ function construirFirmaHtml(displayName, jobTitle) {
       </tr>
     </table>
   `;
+}
+
+// Solo se agrega si "Telefono movil" esta cargado en Microsoft 365. Si esta
+// vacio, esta funcion devuelve un string vacio y la fila directamente no existe.
+function construirFilaWhatsapp(mobilePhone) {
+  if (!mobilePhone || !mobilePhone.trim()) {
+    return "";
+  }
+
+  const telefonoVisible = escaparHtml(mobilePhone.trim());
+  const telefonoWa = mobilePhone.replace(/[^\d]/g, "");
+
+  return `
+      <tr>
+        <td style="padding-top:1px;line-height:16px;font-family:Calibri,Arial,sans-serif;">
+          <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;color:#5d6470;font-size:12px;white-space:nowrap;">
+            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:middle;border:0;margin-right:5px;">
+            <span style="vertical-align:middle;">${telefonoVisible}</span>
+          </a>
+        </td>
+      </tr>`;
 }
 
 function escaparHtml(texto) {
