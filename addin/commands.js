@@ -167,7 +167,7 @@ function construirFilaWhatsapp(mobilePhone) {
       <tr>
         <td style="padding-top:1px;line-height:16px;font-family:Calibri,Arial,sans-serif;">
           <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;color:#5d6470;font-size:12px;white-space:nowrap;">
-            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:middle;border:0;margin-right:5px;">
+            <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:inline-block;vertical-align:-2px;border:0;margin-right:5px;">
             <span style="vertical-align:middle;">${telefonoVisible}</span>
           </a>
         </td>
