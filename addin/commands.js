@@ -170,7 +170,7 @@ function construirFilaWhatsapp(mobilePhone) {
           <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;">
             <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
               <tr>
-                <td valign="middle" style="padding-right:5px;">
+                <td valign="middle" style="padding-right:5px;padding-top:3px;">
                   <img src="${WHATSAPP_ICON_URL}" width="13" height="13" alt="WhatsApp" style="display:block;border:0;">
                 </td>
                 <td valign="middle" style="color:#5d6470;font-size:12px;line-height:14px;white-space:nowrap;">
