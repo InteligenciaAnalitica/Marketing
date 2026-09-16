@@ -7,7 +7,7 @@
     xsi:type="MailApp">
 
   <Id>a3f4e6d2-9b7c-4b1a-8b0a-8e2b4a6c5d10</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.0.1.0</Version>
   <ProviderName>Inteligencia Analitica</ProviderName>
   <DefaultLocale>es-AR</DefaultLocale>
   <DisplayName DefaultValue="Firma IA" />
