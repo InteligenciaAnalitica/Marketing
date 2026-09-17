@@ -66,7 +66,10 @@ async function autoInsertSignature(event) {
   const { displayName, jobTitle, mobilePhone } = await obtenerDatosPerfil();
   const html = construirFirmaHtml(displayName, jobTitle, mobilePhone);
 
-  Office.context.mailbox.item.body.setSignatureAsync(
+  // Usamos setSelectedDataAsync (igual que el boton manual) en vez de
+  // setSignatureAsync: esta ultima le reaplica su propio estilo de link azul
+  // a los <a>, ignorando el color que definimos en el HTML.
+  Office.context.mailbox.item.body.setSelectedDataAsync(
     html,
     { coercionType: Office.CoercionType.Html },
     (result) => {
