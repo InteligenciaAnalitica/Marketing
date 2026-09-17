@@ -167,7 +167,7 @@ function construirFilaWhatsapp(mobilePhone) {
   return `
       <tr>
         <td style="padding-top:1px;font-family:Calibri,Arial,sans-serif;">
-          <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;">
+          <a href="https://wa.me/${telefonoWa}" target="_blank" style="text-decoration:none;color:#5d6470;">
             <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
               <tr>
                 <td valign="middle" style="padding-right:5px;padding-top:3px;">
