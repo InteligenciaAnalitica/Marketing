@@ -132,7 +132,7 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
   return `
     <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:0;font-family:Calibri,Arial,sans-serif;">
       <tr>
-        <td style="padding-top:2px;padding-bottom:8px;">
+        <td style="padding-top:10px;padding-bottom:8px;">
           <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
             <img src="${LOGO_URL}" width="110" style="display:block;height:auto;border:0;outline:none;" alt="Inteligencia Analitica">
           </a>
