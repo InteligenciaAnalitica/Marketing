@@ -140,9 +140,7 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
       </tr>
       <tr>
         <td style="font-size:12.5px;line-height:18px;white-space:nowrap;font-family:Calibri,Arial,sans-serif;">
-          <span style="font-weight:700;color:#003580;">${nombre}</span>
-          <span style="color:#9aa2ad;">&nbsp;|&nbsp;</span>
-          <span style="color:#5d6470;">${puesto}</span>
+          <span style="font-weight:700;color:#003580;">${nombre}</span><span style="color:#9aa2ad;">&nbsp;|&nbsp;</span><span style="color:#5d6470;">${puesto}</span>
         </td>
       </tr>
       ${filaWhatsapp}
