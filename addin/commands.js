@@ -149,7 +149,7 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
       <tr>
         <td style="color:#5d6470;font-size:12px;line-height:20px;padding-top:2px;font-family:Calibri,Arial,sans-serif;">
           <a href="${SITE_URL}" target="_blank" style="text-decoration:none;color:#5d6470;">
-            <span style="background:#e3f2fc;">www.inteligenciaanalitica.com</span>
+            <span style="background:#f0f8fd;">www.inteligenciaanalitica.com</span>
           </a>
         </td>
       </tr>
