@@ -3,7 +3,7 @@
 const AAD_APP_CLIENT_ID = "8100d731-7de2-416e-a112-a6c62a361a9a";
 
 const LOGO_URL =
-  "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/logo-horizontal-transparente.png";
+  "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/logo-animado.gif";
 const WHATSAPP_ICON_URL =
   "https://raw.githubusercontent.com/InteligenciaAnalitica/Marketing/main/firma/whatsapp-icon.png";
 const SITE_URL = "https://www.inteligenciaanalitica.com";
