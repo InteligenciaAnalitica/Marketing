@@ -129,8 +129,7 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
   const puesto = escaparHtml(jobTitle || "");
   const filaWhatsapp = construirFilaWhatsapp(mobilePhone);
 
-  return `
-    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:0;font-family:Calibri,Arial,sans-serif;">
+  const html = `<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:auto;margin-top:0;font-family:Calibri,Arial,sans-serif;">
       <tr>
         <td style="padding-top:10px;padding-bottom:8px;">
           <a href="${SITE_URL}" target="_blank" style="text-decoration:none;">
@@ -151,8 +150,9 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
           </a>
         </td>
       </tr>
-    </table>
-  `;
+    </table>`;
+
+  return html.trim();
 }
 
 // Solo se agrega si "Telefono movil" esta cargado en Microsoft 365. Si esta
