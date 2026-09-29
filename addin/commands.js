@@ -152,7 +152,10 @@ function construirFirmaHtml(displayName, jobTitle, mobilePhone) {
       </tr>
     </table>`;
 
-  return html.trim();
+  // El span vacio de abajo evita que Outlook cree un renglon nuevo con letra
+  // grande (la de por defecto) justo despues de la tabla para que el cursor
+  // tenga donde pararse -- eso es lo que generaba el espacio en blanco grande.
+  return `${html.trim()}<span style="font-size:1px;line-height:1px;">&nbsp;</span>`;
 }
 
 // Solo se agrega si "Telefono movil" esta cargado en Microsoft 365. Si esta
