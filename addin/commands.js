@@ -66,19 +66,47 @@ async function autoInsertSignature(event) {
   const { displayName, jobTitle, mobilePhone } = await obtenerDatosPerfil();
   const html = construirFirmaHtml(displayName, jobTitle, mobilePhone);
 
-  // Usamos setSelectedDataAsync (igual que el boton manual) en vez de
-  // setSignatureAsync: esta ultima le reaplica su propio estilo de link azul
-  // a los <a>, ignorando el color que definimos en el HTML.
-  Office.context.mailbox.item.body.setSelectedDataAsync(
-    html,
-    { coercionType: Office.CoercionType.Html },
-    (result) => {
-      if (result.status === Office.AsyncResultStatus.Failed) {
-        console.log("Error al insertar la firma automática:", result.error.message);
-      }
-      event.completed();
+  const finalizar = (result) => {
+    if (result.status === Office.AsyncResultStatus.Failed) {
+      console.log("Error al insertar la firma automática:", result.error.message);
     }
-  );
+    event.completed();
+  };
+
+  if (typeof Office.context.mailbox.item.getComposeTypeAsync !== "function") {
+    // Item sin ese metodo (por ejemplo, una cita): insertamos en el cursor.
+    Office.context.mailbox.item.body.setSelectedDataAsync(
+      html,
+      { coercionType: Office.CoercionType.Html },
+      finalizar
+    );
+    return;
+  }
+
+  Office.context.mailbox.item.getComposeTypeAsync((asyncResult) => {
+    const tipo =
+      asyncResult.status === Office.AsyncResultStatus.Succeeded
+        ? asyncResult.value.composeType
+        : "newMail";
+
+    if (tipo === "newMail") {
+      // Correo nuevo: reservamos la firma abajo con setSignatureAsync, para
+      // que el cursor quede arriba, libre para escribir el mensaje primero.
+      Office.context.mailbox.item.body.setSignatureAsync(
+        html,
+        { coercionType: Office.CoercionType.Html },
+        finalizar
+      );
+    } else {
+      // Respuesta o reenvio: insertamos en el cursor (justo debajo de lo que
+      // se escribe), asi no queda al final de todo el hilo citado.
+      Office.context.mailbox.item.body.setSelectedDataAsync(
+        html,
+        { coercionType: Office.CoercionType.Html },
+        finalizar
+      );
+    }
+  });
 }
 
 async function obtenerPerfilDesdeGraph() {
