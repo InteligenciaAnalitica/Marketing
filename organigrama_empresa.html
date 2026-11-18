@@ -833,6 +833,9 @@ body{background:#fff;}
 .ia-grid .cc-foot{margin-top:8px;}
 .ia-grid .client-card-count{font:500 11px/1 var(--pc-sans);background:#F1F4F8;color:#3A4A5E;border:0;padding:4px 9px;border-radius:999px;}
 .ia-grid .cc-detail{font:500 11px/1 var(--pc-sans);letter-spacing:0;text-transform:none;}/* Panel de Ignacio Juan: tres columnas (I+D, Calidad, Formación), con los equipos de a dos por fila */
+/* El panel nunca es más ancho que la página: si el organigrama no entra, se desplaza de costado dentro del panel */
+.client-panel{min-width:0;max-width:100%;box-sizing:border-box;}
+.client-panel.open{overflow-x:auto;}
 #panel-int-ij .panel-members{flex-wrap:wrap;max-width:356px;gap:16px;}
 #panel-int-ij .int-cols > div::before{left:-20px;right:-20px;}
 #panel-int-ij .int-cols > div:first-child::before{left:min(var(--dx,50%),59px);}
@@ -1700,14 +1703,25 @@ function togglePanel(id, card) {
     panel.classList.add('open');
     card.classList.add('active');
     grid.classList.add('has-selection');
-    centerPanel(panel);
-    alignDrops(panel);
-    drawLeaderLines(panel);
+    layoutPanel(panel);
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
 
-// Centra cada línea punteada de bajada sobre la primera fila de tarjetas de su columna
+// Arma el panel abierto: lo centra y dibuja las líneas. Si el organigrama no entra en el ancho disponible
+// (por ejemplo, embebido en SharePoint), el panel se desplaza de costado con su propia barra: no se achica.
+function layoutPanel(panel) {
+  centerPanel(panel);
+  panel.scrollLeft = 0;
+  alignDrops(panel);
+  drawLeaderLines(panel);
+}
+// Zoom aplicado al bloque del panel que contiene al elemento (1 si no tiene)
+function zoomOf(el) {
+  const k = el.closest('.client-panel > *');
+  return k ? (parseFloat(k.style.zoom) || 1) : 1;
+}
+
 // Centra horizontalmente el organigrama dentro del panel abierto
 function centerPanel(panel) {
   panel.style.paddingLeft = panel.style.paddingRight = '';
@@ -1733,7 +1747,7 @@ function alignDrops(panel) {
       const top = cards[0].getBoundingClientRect().top;
       const row = cards.filter(c => Math.abs(c.getBoundingClientRect().top - top) < 8).map(c => c.getBoundingClientRect());
       const l = Math.min(...row.map(r => r.left)), r = Math.max(...row.map(r => r.right));
-      col.style.setProperty('--dx', ((l + r) / 2 - col.getBoundingClientRect().left) + 'px');
+      col.style.setProperty('--dx', ((l + r) / 2 - col.getBoundingClientRect().left) / zoomOf(col) + 'px');
     });
   });
 }
@@ -1774,10 +1788,11 @@ function drawLeaderLines(panel) {
     }
     const sx = lr.left - pr.left - 7;
     const multi = rows.length > 1;
+    const z = zoomOf(par);  // las medidas son de pantalla; dentro de un bloque con zoom se pasan a su escala
     const add = (x, y, w, h, vertical) => {
       const d = document.createElement('div');
       d.className = 'lead-line';
-      d.style.cssText = `left:${x}px;top:${y}px;` + (vertical ? `height:${h}px;border-left:${LINE};` : `width:${w}px;border-top:${LINE};`);
+      d.style.cssText = `left:${x / z}px;top:${y / z}px;` + (vertical ? `height:${h / z}px;border-left:${LINE};` : `width:${w / z}px;border-top:${LINE};`);
       par.appendChild(d);
     };
     const busY = rows.map((r, i) => r.top - (i === 0 ? 11 : 10));
@@ -1795,7 +1810,7 @@ function drawLeaderLines(panel) {
 
 window.addEventListener('resize', () => {
   const open = document.querySelector('.client-panel.open');
-  if (open) { centerPanel(open); alignDrops(open); drawLeaderLines(open); }
+  if (open) layoutPanel(open);
 });
 
 function showTab(id, btn) {
