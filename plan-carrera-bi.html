@@ -3,503 +3,421 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plan de Carrera BI &amp; Data Analytics — Inteligencia Analítica</title>
+<title>Plan de Carrera BI &amp; Data — Inteligencia Analítica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Asap+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#003580;--brand:#074a9b;--mid:#1461AF;
-  --sky:#009DE0;--teal:#50E6D2;
-  --bg:#EFF6FC;--fg2:#5a6a80;
+  --navy:#003580;--mid:#1461AF;--sky:#009DE0;--teal:#009E8A;--amber:#B7791F;--slate:#5B6B82;
+  --bg:#EFF6FC;--line:#D6E2F0;--fg:#1F2A3A;--fg2:#5a6a80;--ink:#0F1F33;--muted:#5B6B80;
+  /* Fondo de página blanco; igual en el mapa organizacional */
+  --page:#FFFFFF;
   --sans:'Rubik',sans-serif;--cond:'Asap Condensed',sans-serif;
 }
-html,body{font-family:var(--sans);background:var(--bg);color:#333;-webkit-font-smoothing:antialiased;overflow:hidden;width:100%;max-width:100%}
+html,body{font-family:var(--sans);background:var(--page);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{width:100%;overflow:hidden}
+.stage{width:1240px;transform-origin:top left}
 
-/* ── MOUNTAIN WRAPPER ── */
-.mtn-wrap{position:relative;width:100%;overflow:hidden;background:var(--bg);padding-bottom:55.6452%}
-.mtn-scene{position:absolute;top:0;left:0;width:1240px;height:690px;transform-origin:top left}
-.mtn-bg{position:absolute;inset:0;width:100%;height:100%}
-.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:10;overflow:visible}
+/* ── LEADERSHIP CHIPS ── */
+.chip{display:inline-flex;align-items:center;gap:5px;font:600 10.5px/1 var(--cond);letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 8px;border-radius:4px;background:#fff;border:1px solid var(--line);color:var(--fg)}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--c);display:inline-block}
+.chip.sm{font-size:9.5px;padding:3px 6px}
 
-/* ── ROLE CARDS ── */
-.rc{position:absolute;background:#fff;border-radius:8px;
-  box-shadow:0 3px 14px rgba(0,53,128,.13),0 1px 4px rgba(0,53,128,.07);
-  padding:10px 12px 10px;cursor:pointer;
-  transition:transform .18s ease,box-shadow .18s ease;z-index:20;overflow:hidden}
-.rc:hover{transform:translateY(-4px)}
-.rc.c-blue:hover{box-shadow:0 8px 24px rgba(0,53,128,.2),inset 0 0 0 2px var(--mid);background:linear-gradient(150deg,rgba(20,97,175,.06) 0%,#fff 55%)}
-.rc.c-sky:hover {box-shadow:0 8px 24px rgba(0,157,224,.2),inset 0 0 0 2px var(--sky);background:linear-gradient(150deg,rgba(0,157,224,.06) 0%,#fff 55%)}
-.rc.c-teal:hover{box-shadow:0 8px 24px rgba(0,158,138,.2),inset 0 0 0 2px #009E8A;background:linear-gradient(150deg,rgba(0,158,138,.06) 0%,#fff 55%)}
-.rc-detail{font:600 9px/1 var(--cond);letter-spacing:.15em;text-transform:uppercase;
-  opacity:0;transition:opacity .2s;margin-top:7px;text-align:right}
-.rc.c-blue:hover .rc-detail{color:var(--mid);opacity:1}
-.rc.c-sky:hover  .rc-detail{color:#0075A8;opacity:1}
-.rc.c-teal:hover .rc-detail{color:#007A6E;opacity:1}
-/* ── ICON BADGE ── */
-.rc-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;margin-bottom:7px;flex-shrink:0;
-  transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
-.rc.c-blue .rc-icon{background:rgba(20,97,175,.11);color:var(--mid)}
-.rc.c-sky  .rc-icon{background:rgba(0,157,224,.11);color:#0079AD}
-.rc.c-teal .rc-icon{background:rgba(0,158,138,.11);color:#007A6E}
-.rc:hover .rc-icon{transform:scale(1.13) rotate(-7deg)}
-/* ── TRACK LABEL ── */
-.rc-track{font:700 7.5px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}
-.rc.c-blue .rc-track{color:rgba(20,97,175,.6)}
-.rc.c-sky  .rc-track{color:rgba(0,110,155,.6)}
-.rc.c-teal .rc-track{color:rgba(0,100,92,.6)}
-/* ── SHIMMER ── */
-@keyframes rc-shimmer{
-  0%{transform:translateX(-200%) skewX(-15deg)}
-  100%{transform:translateX(450%) skewX(-15deg)}
-}
-.rc::after{content:'';position:absolute;top:0;left:0;width:38%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
-  transform:translateX(-200%) skewX(-15deg);pointer-events:none}
-.rc:hover::after{animation:rc-shimmer .52s ease forwards}
-.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.rc.c-blue::before{background:var(--mid)}
-.rc.c-sky::before {background:var(--sky)}
-.rc.c-teal::before{background:#009E8A}
+/* ── SURFACE & HEADER ── */
+/* Sin marco ni fondo propio: el plan se integra con la página de SharePoint en lugar de verse como un recuadro embebido. */
+.surface{overflow:hidden}
+/* Encabezado compacto: en SharePoint el título grande lo pone el banner de la página. */
+.hero{position:relative;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:14px 28px;background:var(--navy);overflow:hidden}
+.hero-bg{position:absolute;right:0;top:0;height:100%;width:600px;pointer-events:none}
+.hero-text{position:relative;display:flex;align-items:baseline;gap:14px}
+.hero-kicker{display:none}
+.hero h1{font:600 18px/1.2 var(--sans);color:#fff;white-space:nowrap}
+.hero p{font:400 13px/1.4 var(--sans);color:rgba(255,255,255,.75)}
+.hero img{position:relative;height:28px;width:auto;flex-shrink:0}
+.body{padding:16px 28px 22px}
+.legend-h{font:700 10.5px/1 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:#6B7C93;margin-bottom:12px}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px}
+.legend-line{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.legend-n{font:700 12px/1 var(--cond);letter-spacing:.12em;color:var(--lc)}
+.legend-line i{flex:1;height:4px;border-radius:2px;background:var(--lg,var(--lc))}
+.legend-line em{width:11px;height:11px;border-radius:50%;background:var(--lc);box-shadow:0 0 0 4px color-mix(in srgb,var(--lc) 18%,transparent)}
+.legend-i b{display:block;font:700 14px/1.25 var(--sans);color:var(--lc)}
+.legend-d{display:block;font:400 12px/1.45 var(--sans);color:var(--muted);margin-top:3px}
+.hint{font:400 12px/1 var(--sans);color:#8A97A8;margin:12px 0 0}
 
-.rc-title{font:700 11.5px/1.3 var(--sans);color:var(--navy);margin-bottom:4px}
-.rc-sub{font:400 9px/1 var(--sans);color:var(--fg2);margin-bottom:8px}
-
-
-/* ── PINS ── */
-.pin{position:absolute;width:18px;height:25px;z-index:25;pointer-events:none;
-  filter:drop-shadow(0 2px 4px rgba(0,53,128,.2))}
-
-/* ── TRACK LABELS ── */
-.tlabel{position:absolute;z-index:15;font:700 9px/1 var(--cond);letter-spacing:.17em;
-  text-transform:uppercase;padding:5px 10px;border-radius:20px;
-  display:flex;align-items:center;gap:6px}
-.tl-b{color:var(--mid);  border:1.5px solid rgba(20,97,175,.4); background:rgba(20,97,175,.07)}
-.tl-s{color:#0075A8;     border:1.5px solid rgba(0,157,224,.4); background:rgba(0,157,224,.07)}
-.tl-t{color:#007A6E;     border:1.5px solid rgba(0,122,110,.35);background:rgba(0,122,110,.07)}
-
-/* ── ROCKET ── */
-.rocket{position:absolute;z-index:30}
-
-/* ── LEGEND ── */
-.legend{position:absolute;bottom:14px;left:18px;z-index:25;display:flex;flex-direction:column;gap:6px}
-.leg-item{display:flex;align-items:center;gap:8px;
-  font:500 9px/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)}
-.leg-dash{width:26px;height:0;flex-shrink:0;border-top:2px dashed}
-
-/* ── HINT ── */
-.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;
-  font-family:var(--cond);font-size:10px;letter-spacing:.1em;color:var(--fg2);z-index:30}
+/* ── TREE ── */
+.tree{position:relative;width:1184px;height:560px;margin:14px auto 0}
+.tree::before{content:'';position:absolute;inset:-6px -36px -30px;background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px;opacity:.7;pointer-events:none}
+.tree-links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* Líneas livianas y punteadas, en el mismo lenguaje que los conectores del mapa organizacional */
+.tree-links path{fill:none;stroke-width:1.6;stroke-dasharray:.1 4.5;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.tree-links circle{stroke:var(--page);stroke-width:1.5;opacity:.85}
+.tree-links text{font:600 11.5px var(--sans);letter-spacing:.01em;paint-order:stroke;stroke:var(--page);stroke-width:6px;stroke-linejoin:round}
+.tree-links text.sub{font-weight:500;font-size:11px;opacity:.85}
+.card{position:absolute;height:64px;background:#fff;border:1px solid #D6E0EB;border-radius:10px;padding:0 16px 0 20px;cursor:pointer;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(15,31,51,.05),0 6px 14px -8px rgba(15,31,51,.2);
+  transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}
+.card:hover{border-color:color-mix(in srgb,var(--c) 45%,#D6E0EB);transform:translateY(-1px);box-shadow:0 2px 4px rgba(15,31,51,.06),0 12px 24px -10px rgba(15,31,51,.28)}
+.card:focus-visible{outline:2px solid var(--mid);outline-offset:2px}
+/* El color del camino va solo en el borde izquierdo: una franja fina, sin ícono */
+.card-ic{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--stripe)}
+.card b{font:600 14px/1.2 var(--sans);color:var(--ink);white-space:nowrap}
+.card > small{font:400 12px/1.3 var(--sans);color:var(--muted);margin-top:4px;white-space:nowrap}
 
 /* ── MODAL ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,10,28,.55);
-  backdrop-filter:blur(5px);z-index:9000;align-items:center;justify-content:center}
+.overlay{display:none;position:fixed;inset:0;background:rgba(4,18,40,.5);backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:16px}
 .overlay.open{display:flex}
-.modal{background:#fff;border-radius:18px;width:700px;max-width:96vw;max-height:88vh;
-  overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 25px 60px rgba(0,0,0,.35);animation:popIn .22s ease}
-@keyframes popIn{from{transform:scale(.95) translateY(8px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.m-head{background:var(--navy);padding:24px 28px 20px;flex-shrink:0;position:relative}
-.m-head::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px}
-.modal.c-blue .m-head::before{background:linear-gradient(90deg,var(--mid),var(--sky))}
-.modal.c-sky  .m-head::before{background:linear-gradient(90deg,var(--sky),#50c8f0)}
-.modal.c-teal .m-head::before{background:linear-gradient(90deg,#009E8A,var(--teal))}
-.m-top{display:flex;justify-content:space-between;align-items:flex-start}
-.m-badge{font:700 10.5px/1 var(--cond);letter-spacing:.2em;text-transform:uppercase;
-  padding:5px 12px;border-radius:14px;display:inline-block;margin-bottom:8px}
-.modal.c-blue .m-badge{background:rgba(20,97,175,.28);color:#7bbfff}
-.modal.c-sky  .m-badge{background:rgba(0,157,224,.25);color:#6ad4f5}
-.modal.c-teal .m-badge{background:rgba(0,158,138,.25);color:#40dfcc}
-.m-title{font:700 22px/1.2 var(--sans);color:#fff}
-.m-subtitle{font:400 12.5px/1.4 var(--sans);color:rgba(255,255,255,.6);font-style:italic;margin-top:5px}
-.m-close{width:36px;height:36px;border:none;border-radius:50%;background:rgba(255,255,255,.1);
-  cursor:pointer;font-size:16px;color:rgba(255,255,255,.7);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
-.m-close:hover{background:rgba(255,255,255,.2);color:#fff}
-.m-body{padding:22px 28px;overflow-y:auto;flex:1;background:#fff}
-.m-section{margin-bottom:18px}.m-section:last-child{margin-bottom:0}
-.m-sh{font:700 11px/1 var(--cond);letter-spacing:.22em;text-transform:uppercase;
-  color:var(--mid);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.modal.c-sky  .m-sh{color:#0075A8}
-.modal.c-teal .m-sh{color:#007A6E}
-.m-sh::before{content:'';width:16px;height:2px;background:currentColor;display:inline-block;flex-shrink:0}
-.m-list{list-style:none;padding:0;margin:0}
-.m-list li{position:relative;padding-left:15px;font:400 13px/1.5 var(--sans);color:#2a3340;margin-bottom:5px}
-.m-list li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;
-  background:var(--sky);border-radius:50%}
-.modal.c-teal .m-list li::before{background:#009E8A}
-.m-comp{display:flex;flex-wrap:wrap;gap:6px}
-.comp-tag{font:500 11.5px/1 var(--sans);padding:5px 12px;border-radius:14px;
-  background:#f0f4f8;color:#2a3340;border:1px solid #dde3ec}
-.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 18px;margin-top:2px}
-.skill-item{font:400 12.5px/1 var(--sans);color:#2a3340;display:flex;
-  justify-content:space-between;padding:7px 0;border-bottom:1px dashed #e3e7ee}
-.skill-lvl{font:700 12px/1 var(--cond);color:var(--mid);letter-spacing:.04em}
-.modal.c-sky  .skill-lvl{color:#0075A8}
-.modal.c-teal .skill-lvl{color:#007A6E}
-.m-foot{padding:12px 28px 16px;background:#f7f9fc;border-top:1px solid #e3e7ee;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
-.m-tag{font:700 11.5px/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;
-  background:var(--navy);color:#fff;padding:7px 14px;border-radius:18px}
-.modal.c-sky  .m-tag{background:var(--sky)}
-.modal.c-teal .m-tag{background:#009E8A}
-.m-nav{display:flex;gap:8px}
-.m-nav button{background:transparent;border:1px solid #d3d7df;color:#5a6776;
-  padding:6px 14px;border-radius:18px;font:500 12px var(--sans);cursor:pointer;transition:background .15s,border-color .15s}
-.m-nav button:hover{background:#fff;border-color:var(--mid);color:var(--navy)}
+.modal{background:#fff;border-radius:12px;width:780px;max-width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(0,20,50,.35);animation:popIn .22s ease}
+@keyframes popIn{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.m-head{background:#fff;padding:26px 30px 22px;border-top:4px solid var(--c);border-bottom:1px solid #E8EDF3;flex-shrink:0}
+.m-top{display:flex;align-items:flex-start;gap:18px}
+.m-headtext{flex:1;min-width:0}
+.m-badge{font:500 12.5px/1 var(--sans);color:var(--c);margin-bottom:9px}
+.m-title{font:600 24px/1.2 var(--sans);color:var(--ink);letter-spacing:-.01em}
+.m-subtitle{font:400 14px/1.4 var(--sans);color:var(--muted);margin-top:5px}
+.m-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.m-chips .chip{background:#F1F4F8;border:none;color:#3A4A5E;border-radius:999px;padding:6px 11px;font:500 11.5px/1 var(--sans);letter-spacing:0;text-transform:none}
+.m-chips .chip i{display:none}
+.m-close{width:34px;height:34px;border:1px solid #DCE3EC;border-radius:8px;background:#fff;cursor:pointer;font-size:14px;color:var(--muted);flex-shrink:0}
+.m-close:hover{background:#F4F7FA;color:var(--ink)}
+.m-body{padding:24px 28px 28px;overflow-y:auto;flex:1}
+.m-purpose{font:400 14.5px/1.6 var(--sans);color:#1F2A3A;padding-bottom:20px;margin-bottom:22px;border-bottom:1px solid #E6EDF5;white-space:pre-line}
+.m-note{font:400 13px/1.55 var(--sans);color:var(--muted);margin-top:10px;padding:10px 14px;background:#F5F8FB;border-radius:8px}
+.m-note:empty{display:none}
+.m-intro{font:400 13.5px/1.5 var(--sans);color:var(--muted);margin-bottom:10px}
+.m-sub{font:500 12.5px/1.3 var(--sans);color:var(--muted);margin:16px 0 9px}
+.m-section{margin-bottom:22px}.m-section:last-child{margin-bottom:0}
+.m-sh{display:flex;align-items:center;gap:12px;font:600 13.5px/1 var(--sans);color:var(--ink);margin-bottom:12px}
+.m-sh::after{content:'';flex:1;height:1px;background:#E6EDF5}
+.m-list{list-style:none}
+.m-list li{position:relative;padding-left:18px;font:400 13.5px/1.55 var(--sans);color:#2A3546;margin-bottom:6px}
+.m-list li::before{content:'';position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--c)}
+.m-list.neg li::before{content:'—';background:none;width:auto;height:auto;top:0;left:0;color:#9AA7B8;font:400 13.5px/1.55 var(--sans)}
+.m-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.m-comp{display:flex;flex-wrap:wrap;gap:7px}
+.comp-tag{font:500 12px/1 var(--sans);padding:7px 12px;border-radius:999px;color:#1F3A5F;
+  background:color-mix(in srgb,var(--c) 7%,#fff);border:1px solid color-mix(in srgb,var(--c) 18%,#fff)}
+.skill{display:grid;grid-template-columns:1fr auto 74px;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #EEF2F7;font:400 12.5px/1.3 var(--sans);color:#2A3546}
+.skill-bar{display:flex;gap:3px}
+.skill-bar i{width:13px;height:6px;border-radius:2px;background:#E3EAF3}
+.skill-bar i.on{background:var(--c)}
+.skill-lvl{font:500 11.5px/1 var(--sans);color:#6B7C93;text-align:right}
+.m-body{overflow-x:hidden}
+.m-cols > *{min-width:0}
+@media (max-width:640px){
+  .m-cols{grid-template-columns:1fr}
+  .m-head{padding:20px 20px 16px}.m-body{padding:18px 20px 22px}
+  .m-title{font-size:20px}
+}
+.m-next{display:flex;flex-wrap:wrap;gap:8px}
+.m-next.with-notes{flex-direction:column;gap:12px}
+.m-next-i p{font:400 13px/1.55 var(--sans);color:var(--muted);margin-top:8px}
+.m-next button{font:500 12.5px/1 var(--sans);padding:9px 15px;border-radius:999px;cursor:pointer;color:var(--navy);
+  background:#fff;border:1px solid color-mix(in srgb,var(--c) 30%,#fff);transition:background .15s,border-color .15s}
+.m-next button:hover{background:color-mix(in srgb,var(--c) 8%,#fff);border-color:var(--c)}
 </style>
 </head>
 <body>
+<div class="wrap"><div class="stage" id="stage">
 
-<div class="mtn-wrap">
-<div class="mtn-scene">
-
-  <!-- Terrain layers -->
-  <svg class="mtn-bg" viewBox="0 0 1340 690" preserveAspectRatio="none">
-    <path d="M0,690 L0,430 L110,360 L240,400 L400,280 L550,340 L710,195 L860,265 L1020,120 L1160,195 L1280,75 L1340,110 L1340,690 Z" fill="#C8D9EE" opacity=".35"/>
-    <path d="M0,690 L0,510 L140,455 L280,490 L450,385 L600,430 L760,310 L910,370 L1070,240 L1210,300 L1310,195 L1340,210 L1340,690 Z" fill="#B5CCEA" opacity=".42"/>
-    <path d="M0,690 L0,595 L160,558 L320,582 L490,530 L650,558 L820,500 L980,528 L1140,472 L1280,498 L1340,480 L1340,690 Z" fill="#A2BFE2" opacity=".35"/>
-    <path d="M0,690 L0,678 L160,668 L320,675 L490,664 L650,672 L820,660 L980,669 L1140,656 L1280,665 L1340,658 L1340,690 Z" fill="#8EAFD8" opacity=".22"/>
-    <path d="M1280,75 L1258,118 L1302,118 Z" fill="#7096C4" opacity=".4"/>
-    <path d="M1020,120 L998,162 L1042,162 Z" fill="#7096C4" opacity=".3"/>
-  </svg>
-
-  <!-- Connecting paths -->
-  <!-- Pin centers: Analista(180,412) EspBI(428,402) Referente(512,207)
-       Explotacion(671,482) Ingeniero(720,300) Lider(824,140)
-       Arquitecto(971,312) IA(972,497) Gerente(1084,87) -->
-  <svg class="path-svg" viewBox="0 0 1240 690" preserveAspectRatio="xMidYMid meet">
-
-    <!-- CAMINO DE GESTIÓN: línea sólida azul -->
-    <path d="M180,412 C280,330 410,240 512,207"
-          stroke="#1461AF" stroke-width="2" fill="none" opacity=".5"/>
-    <path d="M512,207 C615,183 728,153 824,140"
-          stroke="#1461AF" stroke-width="2" fill="none" opacity=".5"/>
-    <path d="M824,140 C915,117 1008,95 1084,87"
-          stroke="#1461AF" stroke-width="2" fill="none" opacity=".5"/>
-
-    <!-- CARRERA DE ESPECIALIZACIÓN -->
-    <!-- Analista → Especialista BI -->
-    <path d="M180,412 C260,409 350,403 428,402"
-          stroke="#009DE0" stroke-width="1.5" stroke-dasharray="6,5" fill="none" opacity=".6"/>
-    <!-- Especialista BI → Explotación (camino inferior) -->
-    <path d="M428,402 C515,430 590,465 671,482"
-          stroke="#009DE0" stroke-width="1.5" stroke-dasharray="6,5" fill="none" opacity=".6"/>
-    <!-- Especialista BI → Ingeniero de datos (camino superior, más avanzado) -->
-    <path d="M428,402 C515,365 615,325 720,300"
-          stroke="#009DE0" stroke-width="1.5" stroke-dasharray="6,5" fill="none" opacity=".6"/>
-
-    <!-- ROLES TÉCNICOS AVANZADOS: desde Ingeniero/a de datos -->
-    <path d="M720,300 C800,303 900,308 971,312"
-          stroke="#009E8A" stroke-width="1.5" stroke-dasharray="4,4" fill="none" opacity=".55"/>
-    <path d="M720,300 C780,365 860,445 972,497"
-          stroke="#009E8A" stroke-width="1.5" stroke-dasharray="4,4" fill="none" opacity=".55"/>
-
-    <!-- MOVILIDAD ENTRE TRACKS (sutil) -->
-    <path d="M428,402 C435,320 465,260 512,207"
-          stroke="#7BA3C0" stroke-width="1" stroke-dasharray="3,8" fill="none" opacity=".4"/>
-    <path d="M720,300 C750,250 795,195 824,140"
-          stroke="#7BA3C0" stroke-width="1" stroke-dasharray="3,8" fill="none" opacity=".4"/>
-  </svg>
-
-  <!-- ═══ CAMINO DE GESTIÓN ═══ -->
-
-  <!-- 1. ANALISTA -->
-  <div class="rc c-blue" style="left:100px;top:425px;width:160px" onclick="show('analista')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="4.5" r="2.5"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Ejecución técnica</div>
-    <div class="rc-title">Analista BI &amp; Data Analytics</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:171px;top:403px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#1461AF"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 2. REFERENTE -->
-  <div class="rc c-blue" style="left:430px;top:220px;width:165px" onclick="show('referente')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="4.5" r="2.5"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Apoyo técnico</div>
-    <div class="rc-title">Referente BI &amp; Data Analytics</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:503px;top:198px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#1461AF"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 3. LÍDER -->
-  <div class="rc c-blue" style="left:740px;top:153px;width:168px" onclick="show('liderequipo')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="4.5" r="2.5"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Liderazgo y gestión</div>
-    <div class="rc-title">Líder BI &amp; Data Analytics</div>
-    <div class="rc-sub">Con personas a cargo</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:815px;top:131px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#1461AF"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 4. GERENTE -->
-  <div class="rc c-blue" style="left:1000px;top:100px;width:168px" onclick="show('gerente')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="4.5" r="2.5"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Estrategia y negocio</div>
-    <div class="rc-title">Gerente BI &amp; Data Analytics</div>
-    <div class="rc-sub">Con equipos a cargo</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:1075px;top:78px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#1461AF"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- ═══ CARRERA DE ESPECIALIZACIÓN ═══ -->
-
-  <!-- 5. ESPECIALISTA BI -->
-  <div class="rc c-sky" style="left:345px;top:415px;width:165px" onclick="show('especialista')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="4" height="7" rx="1"/><rect x="6" y="5" width="4" height="11" rx="1"/><rect x="11" y="1" width="4" height="15" rx="1"/></svg></div>
-    <div class="rc-track">Solución integral</div>
-    <div class="rc-title">Especialista BI &amp; Data Analytics</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:418px;top:393px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#009DE0"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 6a. ESPECIALISTA EN EXPLOTACIÓN -->
-  <div class="rc c-sky" style="left:590px;top:495px;width:162px" onclick="show('explotacion')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="4" height="7" rx="1"/><rect x="6" y="5" width="4" height="11" rx="1"/><rect x="11" y="1" width="4" height="15" rx="1"/></svg></div>
-    <div class="rc-track">Visualización</div>
-    <div class="rc-title">Especialista en Explotación</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:662px;top:473px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#009DE0"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 6b. INGENIERO/A DE DATOS (más avanzado → lleva a roles técnicos) -->
-  <div class="rc c-sky" style="left:640px;top:313px;width:160px" onclick="show('ingenierodata')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="4" height="7" rx="1"/><rect x="6" y="5" width="4" height="11" rx="1"/><rect x="11" y="1" width="4" height="15" rx="1"/></svg></div>
-    <div class="rc-track">Infraestructura del dato</div>
-    <div class="rc-title">Ingeniero/a de datos</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:711px;top:291px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#009DE0"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- ═══ ROLES TÉCNICOS AVANZADOS ═══ -->
-
-  <!-- 7. ARQUITECTO/A DE DATOS -->
-  <div class="rc c-teal" style="left:890px;top:325px;width:162px" onclick="show('arqui')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="2"/><circle cx="3" cy="13" r="2"/><circle cx="13" cy="13" r="2"/><path d="M7.1 4.9L3.9 11.1M8.9 4.9L12.1 11.1M5 13H11" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Ingeniería del dato</div>
-    <div class="rc-title">Arquitecto/a de datos</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:962px;top:303px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#009E8A"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- 8. ESPECIALISTA EN IA -->
-  <div class="rc c-teal" style="left:890px;top:510px;width:165px" onclick="show('iartificial')">
-    <div class="rc-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="2"/><circle cx="3" cy="13" r="2"/><circle cx="13" cy="13" r="2"/><path d="M7.1 4.9L3.9 11.1M8.9 4.9L12.1 11.1M5 13H11" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></div>
-    <div class="rc-track">Analítica avanzada</div>
-    <div class="rc-title">Especialista en Inteligencia Artificial</div>
-    <div class="rc-detail">Ver detalle →</div>
-  </div>
-  <svg class="pin" style="left:963px;top:488px" viewBox="0 0 20 28" fill="none">
-    <path d="M10,0C4.5,0 0,4.5 0,10C0,17.5 10,28 10,28C10,28 20,17.5 20,10C20,4.5 15.5,0 10,0Z" fill="#009E8A"/>
-    <circle cx="10" cy="10" r="3.5" fill="white"/>
-  </svg>
-
-  <!-- Track labels + rocket — arriba a la izquierda -->
-  <div class="tlabel tl-b" style="left:15px;top:91px"><svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="4.5" r="2.5"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Camino de Gestión</div>
-  <div class="tlabel tl-s" style="left:15px;top:123px"><svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="4" height="7" rx="1"/><rect x="6" y="5" width="4" height="11" rx="1"/><rect x="11" y="1" width="4" height="15" rx="1"/></svg>Carrera de Especialización</div>
-  <div class="tlabel tl-t" style="left:15px;top:155px"><svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="2"/><circle cx="3" cy="13" r="2"/><circle cx="13" cy="13" r="2"/><path d="M7.1 4.9L3.9 11.1M8.9 4.9L12.1 11.1M5 13H11" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>Roles Técnicos Avanzados</div>
-  <div class="rocket" style="left:20px;top:187px">
-    <svg width="48" height="66" viewBox="0 0 52 72" fill="none">
-      <path d="M26,3C26,3 12,19 12,44L26,51L40,44C40,19 26,3 26,3Z" fill="#C5D9EE"/>
-      <path d="M26,3C26,3 37,17 39,34L26,40L13,34C15,17 26,3 26,3Z" fill="#A8C4E2"/>
-      <circle cx="26" cy="31" r="5" fill="#003580" stroke="#EFF6FC" stroke-width="1.5"/>
-      <circle cx="24" cy="29" r="1.5" fill="rgba(255,255,255,.5)"/>
-      <path d="M12,44L5,57L17,51Z" fill="#1461AF"/>
-      <path d="M40,44L47,57L35,51Z" fill="#1461AF"/>
-      <path d="M20,51C20,51 18,67 26,71C34,67 32,51 32,51Z" fill="#1461AF" opacity=".9"/>
-      <path d="M23,53C23,53 22,63 26,66C30,63 29,53 29,53Z" fill="#EFF6FC" opacity=".7"/>
-    </svg>
+  <div class="surface">
+    <header class="hero">
+      <svg class="hero-bg" viewBox="0 0 600 220" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+        <g fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="2">
+          <path d="M470,-40 L600,35 L600,185 L470,260 L340,185 L340,35 Z"/>
+          <path d="M470,20 L548,65 L548,155 L470,200 L392,155 L392,65 Z"/>
+          <path d="M600,90 L680,136 L680,228 L600,274 L520,228 L520,136 Z"/>
+        </g>
+      </svg>
+      <div class="hero-text">
+        <span class="hero-kicker">Desarrollo de personas</span>
+        <h1>Plan de carrera</h1>
+        <p>Tres caminos para crecer en BI, Data Analytics y Data Engineering, todos con el mismo valor.</p>
+      </div>
+      <img src="data:image/png;base64,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" alt="Inteligencia Analítica">
+    </header>
+    <div class="body">
+      <div class="legend-h">Tres caminos para crecer</div>
+      <div class="legend" id="legend"></div>
+      <p class="hint">Seleccioná un rol para ver sus responsabilidades, competencias y próximos pasos.</p>
+      <div class="tree" id="tree"></div>
+    </div>
   </div>
 
-  <p class="hint">Hacé clic en cualquier rol para ver sus responsabilidades, competencias y habilidades técnicas</p>
-</div>
-</div>
-<!-- MODAL -->
-<div class="overlay" id="overlay" onclick="closeOv(event)">
-  <div class="modal" id="modal">
+</div></div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeM()">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
     <div class="m-head">
       <div class="m-top">
-        <div>
+        <div class="m-headtext">
           <div class="m-badge" id="m-badge"></div>
           <div class="m-title" id="m-title"></div>
           <div class="m-subtitle" id="m-subtitle"></div>
+          <div class="m-chips" id="m-chips"></div>
         </div>
-        <button class="m-close" onclick="closeM()">✕</button>
+        <button class="m-close" onclick="closeM()" aria-label="Cerrar">✕</button>
       </div>
     </div>
     <div class="m-body">
-      <div class="m-section">
-        <div class="m-sh">Responsabilidades</div>
-        <ul class="m-list" id="p-resp"></ul>
+      <div class="m-purpose" id="m-purpose"></div>
+      <div class="m-section"><div class="m-sh">Responsabilidades</div><ul class="m-list" id="m-resp"></ul></div>
+      <div class="m-section" id="m-rp-wrap"><div class="m-sh">Cuando tenga personas a cargo</div><p class="m-intro" id="m-rp-intro"></p><ul class="m-list" id="m-rp"></ul></div>
+      <div class="m-section" id="m-not-wrap"><div class="m-sh">No es responsable de</div><ul class="m-list neg" id="m-not"></ul><p class="m-note" id="m-not-note"></p></div>
+      <div class="m-cols">
+        <div class="m-section"><div class="m-sh">Competencias</div><div class="m-comp" id="m-comp"></div>
+          <div id="m-comp2-wrap"><p class="m-sub">Adicionales cuando tenga personas a cargo</p><div class="m-comp" id="m-comp2"></div></div></div>
+        <div class="m-section"><div class="m-sh">Habilidades técnicas</div><div id="m-tech"></div></div>
       </div>
-      <div class="m-section">
-        <div class="m-sh">Perfil de Competencias</div>
-        <div class="m-comp" id="p-comp"></div>
-      </div>
-      <div class="m-section">
-        <div class="m-sh">Habilidades Técnicas</div>
-        <div class="skills-grid" id="p-tech"></div>
-      </div>
-    </div>
-    <div class="m-foot">
-      <div class="m-tag" id="m-tag"></div>
+      <div class="m-section" id="m-next-wrap"><div class="m-sh">Próximos pasos posibles</div><div class="m-next" id="m-next"></div></div>
     </div>
   </div>
 </div>
 
 <script>
-const ROLES = ['analista','referente','liderequipo','gerente','especialista','explotacion','ingenierodata','arqui','iartificial'];
+const LT = {
+  cuenta:   ['Cuenta',    '#003580'],
+  proyecto: ['Proyecto',  '#1461AF'],
+  personas: ['Personas',  '#009DE0'],
+  tecnico:  ['Técnico',   '#0A6FC2'],
+  expertise:['Expertise', '#5BA3D9']
+};
+
+// Responsabilidad común a todos los roles técnicos: el desarrollo asistido por agentes de IA.
+const AGENTIC = 'Desarrollar con apoyo de agentes de IA aplicando las metodologías, skills y workflows internos; validar la calidad y el uso responsable de lo generado, proponer nuevas automatizaciones y comunicar sus limitaciones.';
 
 const D = {
   analista:{
-    type:'blue', badge:'Punto de Partida',
-    title:'Analista BI & Data Analytics',
-    subtitle:'Ejecución técnica',
-    tag:'Ejecución técnica',
-    resp:['Relevar necesidades de información con el cliente.','Documentar y presentar requerimientos.','Desarrollar reportes y dashboards.','Realizar análisis funcional y técnico de los requerimientos.','Testing, validación y documentación de desarrollos.','Cumplir con metodologías del cliente y procesos internos.','Comunicarse de forma fluida con líder/referente y colaborar con el equipo.'],
+    row:'entry', people:false, lt:[],
+    title:'Analista BI & Data', subtitle:'Ejecución técnica',
+    purpose:'Desarrollar soluciones de datos bajo guía, aprendiendo las herramientas, la metodología y la forma de trabajo con el cliente.',
+    resp:['Relevar necesidades de información con el cliente.','Documentar y presentar requerimientos.','Desarrollar reportes, dashboards y procesos de datos.','Realizar análisis funcional y técnico de los requerimientos.','Hacer testing, validación y documentación de sus desarrollos.','Cumplir con metodologías del cliente y procesos internos.','Comunicarse de forma fluida con su Líder y Referentes, y colaborar con el equipo.',AGENTIC],
     comp:['Análisis funcional','Organización y cumplimiento','Comunicación clara','Trabajo en equipo'],
-    tech:[['BI & Visualización','Bajo / Medio'],['Bases de datos','Bajo / Medio'],['Ingeniería e integración de datos','Bajo / Medio'],['Arquitectura de Datos & Modelado','Bajo'],['Agentes de IA','Bajo']]
-  },
+    tech:[['BI & Visualización','Bajo / Medio'],['Bases de datos','Bajo / Medio'],['Ingeniería e integración de datos','Bajo / Medio'],['Arquitectura de Datos & Modelado','Bajo'],['Agentes de IA','Bajo']]  },
   referente:{
-    type:'blue', badge:'Camino de Gestión',
-    title:'Referente BI & Data Analytics',
-    subtitle:'Apoyo técnico y colaboración',
-    tag:'Apoyo técnico y colaboración',
-    resp:['Apoyar la planificación, realizando seguimiento de tareas y alertando desvíos o riesgos de manera oportuna.','Colaborar en la priorización de tareas y canalizar bloqueos al Líder.','Facilitar la adaptación del equipo a cambios de alcance, herramientas o procesos.','Contribuir a la calidad de los entregables, impulsando buenas prácticas y mejoras.','Actuar como nexo técnico entre cliente y equipo en temas operativos.','Guiar a perfiles junior en dudas técnicas y metodológicas brindando feedback al Líder.','Diseñar y validar entregables de punta a punta asegurando cumplimiento de estándares y buenas prácticas.','Resolver con autonomía problemas técnicos complejos.','Promover el uso de agentes de IA en el equipo, compartiendo buenas prácticas para formular instrucciones efectivas y validar resultados.'],
-    comp:['Planificación','Visión técnica integral','Comunicación transversal','Detección de riesgos','Adaptabilidad','Colaboración y apoyo','Mejora continua','Comunicación efectiva con agentes de IA'],
-    tech:[['BI & Visualización','Alto'],['Bases de datos','Alto'],['Ingeniería e integración de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Alto'],['Agentes de IA','Medio / Alto']]
-  },
+    row:'exp', people:false, lt:['expertise','tecnico'],
+    title:'Referente BI & Data Analytics', subtitle:'Expertise e influencia técnica',
+    purpose:'Ser la referencia técnica reconocida en su especialidad: punto de consulta, mentor y apoyo en situaciones complejas, sin gestión formal de personas.',
+    resp:['Actuar como punto de referencia técnico en su especialidad.','Brindar soporte en problemas técnicos complejos.','Acompañar técnicamente a otros integrantes, en especial a perfiles con menor experiencia.','Participar en revisiones técnicas de diseño y de entregables.','Colaborar en estimaciones y análisis de mayor complejidad.','Promover buenas prácticas y compartir conocimiento.','Contribuir a la documentación y estandarización técnica.','Detectar oportunidades de mejora técnica.','Participar en iniciativas de innovación, automatización y adopción de IA.',AGENTIC],
+    comp:['Expertise técnico profundo','Mentoring técnico','Criterio de calidad','Documentación y estandarización','Influencia sin autoridad','Innovación técnica','Comunicación efectiva con agentes de IA'],
+    tech:[['BI & Visualización','Alto'],['Bases de datos','Alto'],['Ingeniería e integración de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Alto'],['Agentes de IA','Medio / Alto']]  },
   liderequipo:{
-    type:'blue', badge:'Camino de Gestión',
-    title:'Líder BI & Data Analytics',
-    subtitle:'Liderazgo y gestión',
-    tag:'Liderazgo y gestión',
-    resp:['Planificar y supervisar los entregables del equipo asegurando cumplimiento de plazos.','Gestionar prioridades, recursos y backlog en función de capacidad y estrategia.','Negociar alcance, tiempos y expectativas con el cliente.','Monitorear desempeño del equipo y dar feedback continuo desarrollando el talento del equipo.','Comunicar avances, riesgos y desvíos a cliente y Gerencia.','Definir planes de acción ante desvíos de calidad, plazos o desempeño.','Resolver conflictos promoviendo un clima de trabajo positivo.','Garantizar el cumplimiento de metodologías y buenas prácticas del área.','Impulsar la adopción de agentes de IA en el equipo, asegurando productividad, calidad y uso responsable.'],
-    comp:['Liderazgo','Planificación y organización','Gestión de prioridades','Toma de decisiones','Comunicación efectiva','Negociación','Desarrollo de talento','Gestión del cambio','Adopción de IA en el equipo'],
-    tech:[['BI & Visualización','Medio / Alto'],['Bases de datos','Medio / Alto'],['Ingeniería e integración de datos','Medio'],['Arquitectura de Datos & Modelado','Medio'],['Agentes de IA','Medio / Alto']]
-  },
+    row:'lid', people:true, lt:['tecnico','personas'],
+    title:'Líder BI & Data Analytics', subtitle:'Liderazgo técnico y de personas',
+    purpose:'Liderar técnicamente al equipo y gestionar a sus personas, garantizando calidad, buenas prácticas, desarrollo profesional y capacidad técnica.',
+    resp:['Liderar técnicamente al equipo y definir el enfoque de las soluciones.','Asegurar calidad, consistencia y buenas prácticas en los entregables.','Organizar y distribuir técnicamente el trabajo según las prioridades y compromisos definidos para el proyecto.','Aportar estimaciones de esfuerzo, capacidad y viabilidad técnica a la planificación.','Detectar riesgos, dependencias y desvíos técnicos y comunicarlos a quien gestiona el proyecto.','Definir planes de acción ante problemas técnicos o de calidad.','Garantizar estándares y metodologías técnicas.','Evaluar desempeño, brindar feedback continuo y acompañar el desarrollo profesional.','Detectar necesidades de capacitación y acompañar el onboarding técnico.','Gestionar clima y funcionamiento del equipo, resolviendo conflictos.','Participar con el cliente en decisiones y definiciones técnicas.','Impulsar nuevas herramientas, metodologías y agentes de IA.',AGENTIC],
+    not:['Control integral de horas y presupuesto.','Negociación comercial, tarifas y condiciones del servicio.'],
+    comp:['Liderazgo técnico','Gestión de personas','Feedback y desarrollo de talento','Criterio de calidad','Análisis de viabilidad técnica','Resolución de conflictos','Comunicación efectiva','Adopción de IA en el equipo'],
+    tech:[['BI & Visualización','Medio / Alto'],['Bases de datos','Medio / Alto'],['Ingeniería e integración de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio / Alto']]  },
+  responsableproyecto:{
+    row:'gest', people:false, peopleNote:'Puede tener personas a cargo', lt:['proyecto'],
+    title:'Responsable de Proyecto', subtitle:'Planificación, coordinación y delivery',
+    purpose:'Gestionar la ejecución de uno o varios proyectos: planificación, coordinación, seguimiento, riesgos y cumplimiento del delivery. Se incorpora en cuentas de alta complejidad, con varios equipos, múltiples dependencias o alta exposición operativa.\n\nSegún la estructura y necesidades de la cuenta, el rol puede incluir además la gestión directa de personas.',
+    resp:['Gestionar integralmente los proyectos asignados y mantener su planificación: hitos, fechas, compromisos y entregables.','Gestionar y priorizar el backlog, coordinando prioridades entre cliente, Gerente de Cuenta, Líderes y equipos.','Hacer seguimiento de avance, capacidad, horas y presupuesto, anticipando impactos en la rentabilidad.','Detectar necesidades de asignación de recursos y coordinar dependencias entre equipos y proyectos.','Gestionar riesgos, alcance y requerimientos adicionales, con planes de mitigación ante desvíos.','Llevar la comunicación operativa con el cliente y las reuniones de seguimiento hasta el cierre de compromisos.','Escalar al Gerente de Cuenta decisiones comerciales, económicas o situaciones críticas.','Trabajar con el Líder BI & Data Analytics en estimaciones, capacidad y viabilidad técnica.'],
+    respPeople:{intro:'Además de las responsabilidades propias del proyecto, será responsable de:',
+      items:['Hacer seguimiento del desempeño y brindar feedback continuo, participando en las evaluaciones formales.','Acompañar objetivos individuales, desarrollo profesional y necesidades de capacitación.','Detectar desvíos de desempeño y definir planes de acción cuando corresponda.','Promover autonomía, compromiso y buen clima, y coordinar disponibilidad, vacaciones e incorporaciones del equipo.','Elevar al Gerente de Cuenta necesidades, oportunidades de desarrollo o situaciones relevantes.']},
+    not:['Definiciones técnicas, arquitectura y estándares.','Calidad técnica de los entregables.','Negociación comercial y tarifas.'],
+    comp:['Planificación y organización','Gestión de prioridades','Coordinación de equipos','Gestión de riesgos','Control de alcance','Comunicación con el cliente','Seguimiento de indicadores','Negociación operativa'],
+    compPeople:['Liderazgo','Desarrollo de personas','Feedback','Gestión del desempeño','Comunicación efectiva','Gestión de conflictos'],
+    tech:[['Metodologías de gestión (ágil / tradicional)','Alto'],['Herramientas de gestión de proyectos','Alto'],['Control de horas y presupuesto','Medio / Alto'],['Conocimiento del ciclo de vida de datos','Medio']]  },
   gerente:{
-    type:'blue', badge:'Camino de Gestión',
-    title:'Gerente BI & Data Analytics',
-    subtitle:'Estrategia y negocio',
-    tag:'Estrategia y negocio',
-    resp:['Garantizar la calidad del servicio y resultados en la cuenta asignada.','Gestionar integralmente los proyectos activos dentro del cliente.','Planificar asignaciones y gestionar capacidad del equipo en la cuenta.','Negociar alcance, tiempos, tarifas y perfiles.','Gestionar expectativas y resolver situaciones críticas o reclamos.','Supervisar facturación, rentabilidad y seguimiento de cobranza.','Detectar riesgos operativos y estratégicos, generando planes de mitigación.','Identificar oportunidades comerciales y expansión de servicios.','Presentar riesgos, resultados y evolución de la cuenta a Dirección.','Definir lineamientos para la adopción de agentes de IA en la cuenta, asegurando eficiencia operativa y gobierno del uso.'],
-    comp:['Liderazgo estratégico','Negociación avanzada','Orientación a resultados económicos','Gestión de riesgos','Desarrollo de talento','Comunicación ejecutiva','Visión comercial','Toma de decisiones','Visión estratégica sobre IA'],
-    tech:[['Gestión de proyectos complejos','Alto'],['Gestión financiera básica','Medio / Alto'],['Metodologías de gestión','Medio / Alto'],['Adopción estratégica de IA','Alto']]
-  },
+    row:'gest', people:true, lt:['cuenta','personas'],
+    title:'Gerente de Cuenta', subtitle:'Estrategia, cliente y resultado integral',
+    purpose:'Ser responsable integral de la cuenta: relación con el cliente, resultado económico, calidad global del servicio y evolución estratégica.',
+    resp:['Garantizar el resultado integral, la calidad del servicio y la satisfacción del cliente.','Definir la estrategia, prioridades y evolución de la cuenta.','Gestionar la relación estratégica con el cliente y sus expectativas.','Supervisar el portfolio de proyectos y servicios activos.','Asegurar la gestión de los proyectos; en cuentas sin Responsable de Proyecto, la comparte con el Líder BI & Data Analytics.','Aprobar capacidad, perfiles y asignaciones estructurales.','Negociar alcance comercial, tarifas, perfiles y condiciones del servicio.','Liderar situaciones críticas, reclamos y escalaciones.','Supervisar facturación, rentabilidad y cobranza.','Gestionar riesgos estratégicos, comerciales y económicos.','Identificar oportunidades comerciales y de expansión.','Presentar resultados, riesgos y evolución de la cuenta a Dirección.','Acompañar el desarrollo de Líderes y Responsables de Proyecto de su cuenta.','Definir lineamientos de eficiencia, evolución tecnológica y adopción de IA.'],
+    comp:['Liderazgo estratégico','Negociación avanzada','Visión comercial','Orientación a resultados económicos','Gestión de riesgos','Comunicación ejecutiva','Desarrollo de líderes','Visión estratégica sobre IA'],
+    tech:[['Gestión de cuentas y portfolio','Alto'],['Gestión financiera y rentabilidad','Medio / Alto'],['Metodologías de gestión','Medio / Alto'],['Adopción estratégica de IA','Alto']]  },
   especialista:{
-    type:'sky', badge:'Carrera de Especialización',
-    title:'Especialista BI & Data Analytics',
-    subtitle:'Solución integral',
-    tag:'Solución integral',
-    resp:['Gestionar y cumplir con entregables individuales de punta a punta.','Traducir necesidades del cliente en soluciones BI integrales.','Desarrollar dashboards avanzados con KPIs y storytelling.','Diseñar y mantener procesos ETL para múltiples fuentes de datos.','Modelar y optimizar Datamarts y/o DW asegurando performance y escalabilidad.','Identificar y proponer mejoras en procesos y metodologías.','Mantener comunicación clara con el equipo y el cliente.','Apoyarse en agentes de IA para acelerar desarrollos, formulando instrucciones claras y validando la calidad de los resultados.'],
-    comp:['Pensamiento analítico','Autonomía y toma de decisiones','Comunicación con negocio','Gestión de prioridades','Resolución de problemas complejos','Comunicación efectiva con agentes de IA'],
-    tech:[['BI & Visualización','Medio / Alto'],['Bases de datos','Medio / Alto'],['Ingeniería e integración de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio']]
-  },
+    row:'esp', people:false, lt:[],
+    title:'Especialista BI & Data', subtitle:'Solución integral con autonomía',
+    purpose:'Resolver con autonomía entregables de punta a punta, traduciendo necesidades del cliente en soluciones de datos completas.',
+    resp:['Gestionar y cumplir entregables individuales de punta a punta.','Traducir necesidades del cliente en soluciones de datos integrales.','Desarrollar dashboards avanzados con KPIs y storytelling.','Diseñar y mantener procesos ETL para múltiples fuentes.','Modelar y optimizar Datamarts y/o DW asegurando performance.','Proponer mejoras en procesos y metodologías.','Mantener comunicación clara con el equipo y el cliente.',AGENTIC],
+    comp:['Pensamiento analítico','Autonomía','Comunicación con negocio','Gestión de prioridades','Resolución de problemas complejos','Comunicación efectiva con agentes de IA'],
+    tech:[['BI & Visualización','Medio / Alto'],['Bases de datos','Medio / Alto'],['Ingeniería e integración de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio']]  },
   explotacion:{
-    type:'sky', badge:'Carrera de Especialización',
-    title:'Especialista en Explotación',
-    subtitle:'Visualización y Metadata',
-    tag:'Visualización y Metadata',
-    resp:['Diseñar y desarrollar dashboards avanzados con foco en visualización clara y storytelling.','Implementar KPIs y métricas garantizando consistencia en los datos.','Gestionar y mantener la metadata asociada a indicadores y reportes.','Optimizar performance de dashboards y modelos de visualización.','Asegurar estándares de diseño, usabilidad y experiencia del usuario.','Identificar mejoras en reportes existentes y proponer optimizaciones.','Actuar como referente técnico en herramientas de visualización.','Aprovechar agentes de IA para acelerar el diseño de dashboards y la generación de insights, validando consistencia visual y de datos.'],
-    comp:['Pensamiento analítico','Orientación a detalle y calidad visual','Comunicación clara de insights','Autonomía técnica','Capacidad de estandarización','Comunicación efectiva con agentes de IA'],
-    tech:[['BI & Visualización','Alto'],['Bases de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio / Alto']]
-  },
+    row:'esp', people:false, lt:['expertise'],
+    title:'Especialista en Explotación', subtitle:'Visualización y metadata',
+    purpose:'Ser experto en la capa de consumo: visualización, experiencia de usuario y consistencia de indicadores.',
+    resp:['Diseñar dashboards avanzados con foco en visualización clara y storytelling.','Implementar KPIs y métricas garantizando consistencia.','Gestionar la metadata de indicadores y reportes.','Optimizar performance de dashboards y modelos de visualización.','Asegurar estándares de diseño, usabilidad y experiencia de usuario.','Proponer optimizaciones sobre reportes existentes.',AGENTIC],
+    comp:['Pensamiento analítico','Detalle y calidad visual','Comunicación de insights','Autonomía técnica','Estandarización','Comunicación efectiva con agentes de IA'],
+    tech:[['BI & Visualización','Alto'],['Bases de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio / Alto']]  },
   ingenierodata:{
-    type:'sky', badge:'Carrera de Especialización',
-    title:'Ingeniero/a de datos',
-    subtitle:'Infraestructura del dato',
-    tag:'Infraestructura del dato',
-    resp:['Diseñar, construir y mantener arquitecturas de datos escalables y seguras.','Desarrollar y optimizar pipelines de datos para integración de múltiples fuentes.','Diseñar y evolucionar Data Warehouses, Data Lakes y Data Marts.','Monitorear performance y resolver incidentes en la infraestructura de datos.','Definir estándares técnicos y lineamientos de ingeniería de datos.','Identificar oportunidades de mejora en arquitectura y eficiencia del ecosistema de datos.','Aprovechar agentes de IA para acelerar el desarrollo de pipelines, scripts y procesos de integración, validando calidad y performance.'],
-    comp:['Pensamiento sistémico','Diseño arquitectónico','Orientación a calidad de datos','Autonomía técnica avanzada','Resolución de problemas complejos','Mejora continua','Visión de escalabilidad','Comunicación efectiva con agentes de IA'],
-    tech:[['Bases de datos','Alto'],['Ingeniería e integración de datos','Alto'],['Arquitectura de Datos & Modelado','Alto'],['Ecosistemas Cloud','Medio / Alto'],['Programación','Medio / Alto'],['Agentes de IA','Medio / Alto']]
-  },
+    row:'esp', people:false, lt:['expertise'],
+    title:'Ingeniero/a de Datos', subtitle:'Infraestructura del dato',
+    purpose:'Diseñar y operar la infraestructura de datos: pipelines, almacenamiento y plataformas escalables y confiables.',
+    resp:['Diseñar, construir y mantener arquitecturas de datos escalables y seguras.','Desarrollar y optimizar pipelines de integración de múltiples fuentes.','Diseñar y evolucionar Data Warehouses, Data Lakes y Data Marts.','Monitorear performance y resolver incidentes de la infraestructura.','Aplicar y proponer estándares de ingeniería de datos.',AGENTIC],
+    comp:['Pensamiento sistémico','Diseño técnico','Calidad de datos','Autonomía técnica avanzada','Visión de escalabilidad','Comunicación efectiva con agentes de IA'],
+    tech:[['Bases de datos','Alto'],['Ingeniería e integración de datos','Alto'],['Arquitectura de Datos & Modelado','Alto'],['Ecosistemas Cloud','Medio / Alto'],['Programación','Medio / Alto'],['Agentes de IA','Medio / Alto']]  },
   arqui:{
-    type:'teal', badge:'Rol Técnico Avanzado',
-    title:'Arquitecto/a de datos',
-    subtitle:'Ingeniería del dato',
-    tag:'Ingeniería del dato',
-    resp:['Diseñar y definir la arquitectura global de datos de la organización.','Definir estándares y buenas prácticas de ingeniería y gobierno de datos.','Diseñar soluciones Cloud y ecosistemas modernos de datos.','Definir estrategias de integración, almacenamiento y consumo de información.','Evaluar y seleccionar tecnologías, herramientas y arquitecturas de datos.','Garantizar calidad, seguridad, disponibilidad y escalabilidad del dato.','Alinear la arquitectura de datos con las necesidades del negocio.','Acompañar técnicamente a equipos de Data Engineering, BI y AI.','Definir estándares y buenas prácticas para el uso de agentes de IA en el desarrollo y diseño de soluciones de datos.'],
-    comp:['Visión estratégica','Pensamiento sistémico','Diseño arquitectónico','Gobierno de datos','Liderazgo técnico','Toma de decisiones','Innovación tecnológica','Comunicación transversal','Gobierno del uso de IA'],
-    tech:[['Arquitectura de Datos & Modelado','Alto'],['Bases de datos','Alto'],['Ingeniería e integración de datos','Alto'],['Ecosistemas Cloud','Alto'],['Agentes de IA','Alto']]
-  },
+    row:'exp', people:false, lt:['expertise','tecnico'],
+    title:'Arquitecto/a de Datos', subtitle:'Arquitectura y estándares transversales',
+    purpose:'Definir la arquitectura de datos end-to-end y los estándares técnicos que siguen todos los equipos.',
+    resp:['Diseñar la arquitectura global de datos de las soluciones.','Definir estándares de ingeniería y gobierno de datos.','Diseñar soluciones Cloud y ecosistemas modernos de datos.','Evaluar y seleccionar tecnologías y herramientas.','Garantizar calidad, seguridad, disponibilidad y escalabilidad del dato.','Acompañar técnicamente a equipos de Data Engineering, BI e IA.','Definir buenas prácticas para el uso de agentes de IA en el diseño de soluciones.',AGENTIC],
+    not:['Gestión formal de personas.','Gestión operativa de proyectos.'],
+    comp:['Visión estratégica','Pensamiento sistémico','Gobierno de datos','Influencia técnica transversal','Toma de decisiones','Innovación tecnológica'],
+    tech:[['Arquitectura de Datos & Modelado','Alto'],['Bases de datos','Alto'],['Ingeniería e integración de datos','Alto'],['Ecosistemas Cloud','Alto'],['Agentes de IA','Alto']]  },
   iartificial:{
-    type:'teal', badge:'Rol Técnico Avanzado',
-    title:'Especialista en Inteligencia Artificial',
-    subtitle:'Analítica avanzada',
-    tag:'Analítica avanzada',
-    resp:['Gestionar y cumplir con entregables de punta a punta, resolviendo los desarrollos con apoyo de agentes de IA.','Desarrollar dashboards, procesos ETL y modelos de datos asistido por agentes de IA.','Aplicar las metodologías, skills y workflows internos definidos para el uso de IA.','Proponer nuevas formas de resolver o automatizar tareas mediante IA, evolucionando los workflows del equipo.','Validar los entregables generados con IA asegurando calidad, consistencia y uso responsable.','Mantener comunicación clara con el equipo y el cliente, comunicando limitaciones y riesgos de las soluciones de IA.'],
-    comp:['Autonomía técnica','Resolución de problemas complejos','Innovación y experimentación','Pensamiento crítico'],
-    tech:[['BI & Visualización','Medio / Alto'],['Bases de datos','Medio / Alto'],['Arquitectura de Datos & Modelado','Medio / Alto'],['Agentes de IA','Medio / Alto']]
-  }
+    row:'exp', people:false, lt:['expertise'],
+    title:'Especialista en IA', subtitle:'IA aplicada: RAG, LLMs, agentes y visión por computadora',
+    purpose:'Diseñar y construir soluciones de IA aplicada para el cliente (RAG, asistentes y agentes sobre LLMs, y visión por computadora), con criterios de calidad, seguridad y revisión humana.',
+    resp:['Diseñar y construir soluciones de RAG con LLMs: extracción documental, índices de búsqueda híbrida y evaluación de respuestas.','Desarrollar asistentes y agentes de IA sobre datos y documentación del cliente, con revisión humana (por ejemplo, Chat to Data o copilotos).','Integrar LLMs con herramientas y sistemas del cliente mediante MCP y APIs.','Desarrollar soluciones de visión por computadora: clasificación, detección y segmentación de imágenes, y lectura de documentos y planos (OCR y modelos multimodales).','Preparar y etiquetar conjuntos de imágenes, entrenar o ajustar modelos de visión y evaluar su precisión en condiciones reales.','Liderar pruebas de concepto de IA con criterios de éxito escritos y acotados.','Definir conjuntos de evaluación y medir la calidad de las respuestas.','Asegurar seguridad, permisos por rol y protección de la información en las soluciones de IA.','Evaluar la calidad y la preparación de las fuentes documentales y de datos para su uso con IA.','Gestionar con el cliente las expectativas técnicas sobre lo que la IA puede y no puede resolver.','Acompañar al equipo en la adopción de técnicas de IA aplicada.'],
+    comp:['IA aplicada y generativa','Pensamiento crítico','Experimentación con criterio de éxito','Manejo de expectativas con el cliente','Seguridad y uso responsable','Resolución de problemas complejos'],
+    tech:[['RAG y LLMs','Alto'],['Agentes y MCP','Alto'],['Visión por computadora','Medio / Alto'],['Evaluación de soluciones de IA','Alto'],['Azure AI Search / Microsoft Fabric','Medio / Alto'],['Seguridad y permisos en IA','Medio / Alto'],['Programación (Python)','Medio / Alto']]  }
 };
 
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const chip = (k, sm) => `<span class="chip${sm?' sm':''}" style="--c:${LT[k][1]}"><i></i>${LT[k][0]}</span>`;
+// Un azul de la marca por camino; los roles compartidos (Analista, Especialista) van en tonos neutros o mixtos.
+const PCOL = {
+  gestion:    {b:['#003580','#1A4C94'], line:'#2A5FA6', text:'#003580', legend:'linear-gradient(90deg,#00A3E0,#003580)'},
+  ingenieria: {b:['#1FB8A0','#4CCDB8'], line:'#1FB8A0', text:'#13917D'},
+  analitica:  {b:['#F08A24','#F7A95A'], line:'#F08A24', text:'#C96A12'}
+};
+// Prueba de colores: el camino de gestión va del celeste (Referente) al azul oscuro (Gerente de Cuenta).
+const ROLE_SHADE = {referente:['#00A3E0'], liderequipo:['#0A6FC2'], responsableproyecto:['#1A4C94'], gerente:['#003580'],
+  ingenierodata:['#1FB8A0'], arqui:['#13917D'], explotacion:['#F08A24'], iartificial:['#D9741A']};
+// IA comparte el color de Analítica en un tono más profundo: es la rama más especializada.
+PCOL.ia = {...PCOL.analitica, b:['#D9741A','#F08A24']};
+// Analista es la base de los tres caminos: degradé con los azules del logo.
+// Analista y Especialista son el punto de partida común: celeste genérico.
+const SHARED = {analista:['#3BAFDA','#6CC5EA'], especialista:['#3BAFDA','#6CC5EA']};
+const NEUTRAL_LINE = '#9DB3CF';
+const shadeOf = id => ROLE_SHADE[id] || SHARED[id] || PCOL[pathsOf(id)[0].id].b;
+const colorOf = id => shadeOf(id)[0];
+const lineOf = id => pathsOf(id).length > 1 ? NEUTRAL_LINE : PCOL[pathsOf(id)[0].id].line;
+
+const PATHS = [
+  {id:'gestion',    name:'Gestión y liderazgo',
+   tagline:'Liderar personas, coordinar proyectos y llevar la relación con el cliente.',
+   steps:['referente','liderequipo','responsableproyecto','gerente']},
+  {id:'ingenieria', name:'Ingeniería de datos',
+   tagline:'Construir plataformas, pipelines y la arquitectura que sostiene los datos.',
+   steps:['especialista','ingenierodata','arqui']},
+  {id:'analitica',  name:'Analítica e IA',
+   tagline:'Convertir datos en decisiones con visualización e inteligencia artificial.',
+   steps:['especialista','explotacion']},
+  // Rama paralela a Explotación dentro del mismo camino (no va en la leyenda).
+  {id:'ia',         name:'Analítica e IA', legend:false,
+   steps:['especialista','iartificial']}
+];
+const pathsOf = id => PATHS.filter(p => p.steps.includes(id));
+
+
+// Centro de cada tarjeta en un lienzo de 1184×560. Cada camino tiene su propio ritmo: las alturas no se comparan entre caminos.
+const POS = {
+  analista:[592,510],
+  referente:[285,390], liderequipo:[175,280], responsableproyecto:[285,170], gerente:[175,60],
+  especialista:[720,390], ingenierodata:[640,260], arqui:[640,110],
+  explotacion:[1030,260], iartificial:[1030,110]
+};
+const PH = 64, PW = 300, ROOT_W = 300;
+const SHORT = {
+  analista:'Punto de partida', referente:'Expertise técnico', liderequipo:'Técnica y personas',
+  responsableproyecto:'Plan, plazos y delivery', gerente:'Cliente y negocio', especialista:'Solución integral',
+  ingenierodata:'Infraestructura del dato', arqui:'Arquitectura y estándares', explotacion:'Visualización y metadata', iartificial:'RAG, LLMs, agentes y visión'
+};
+// [desde, hacia, altura de la bifurcación, desvío opcional]. La rama de IA sube por el pasillo entre Ingeniero/a y Explotación.
+const LINKS = [
+  ['analista','referente',460], ['analista','especialista',460],
+  ['referente','liderequipo',335], ['liderequipo','responsableproyecto',225], ['responsableproyecto','gerente',115],
+  ['especialista','ingenierodata',330], ['especialista','explotacion',330],
+  ['especialista','iartificial',330, [[845,330],[845,185],[1030,185]]],
+  ['ingenierodata','arqui',185]
+];
+// [texto, x, y, alineación, camino, es subetiqueta]. Los caminos rotulan el tramo común; las ramas llevan una subetiqueta.
+const BRANCH_LABELS = [
+  ['Gestión y liderazgo',438,452,'middle','gestion'], ['Ingeniería de datos',712,322,'end','ingenieria'],
+  ['Explotación',857,322,'start','analitica',true],
+  ['Especialización en IA',857,177,'start','ia',true]
+];
+// Franja de color de cada tarjeta; los roles compartidos combinan los colores de sus caminos.
+const stripeOf = id => SHARED[id] ? '#6CC5EA' : colorOf(id);
+
+function renderTree() {
+  const W = 1184, H = 560;
+  let h = `<svg class="tree-links" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;  LINKS.forEach(([a, b, y, route]) => {
+    const [x1, y1] = POS[a], [x2, y2] = POS[b], c = lineOf(b), sc = SHARED[a] ? NEUTRAL_LINE : c;
+    const pts = route || [[x2, y]], [ex, ey] = pts[pts.length - 1];
+    h += `<path style="stroke:${sc}" d="M${x1},${y1 - PH / 2} V${y}"/>
+      <path style="stroke:${c}" d="M${x1},${y} ${pts.map(([x, yy]) => `L${x},${yy}`).join(' ')} V${y2 + PH / 2}"/>
+      <circle style="fill:${sc}" cx="${x1}" cy="${y}" r="3.2"/><circle style="fill:${c}" cx="${ex}" cy="${ey}" r="2.4"/>
+      ${route ? `<circle style="fill:${c}" cx="${route[0][0]}" cy="${route[0][1]}" r="3.2"/>` : ''}`;
+  });
+  BRANCH_LABELS.forEach(([text, x, y, anchor, pid, sub]) => {
+    h += `<text${sub ? ' class="sub"' : ''} style="fill:${PCOL[pid].text}" x="${x}" y="${y}" text-anchor="${anchor}">${text}</text>`;
+  });
+  h += '</svg>';
+  Object.entries(POS).forEach(([id, [cx, cy]]) => {
+    const w = id === 'analista' ? ROOT_W : PW;
+    h += `<div class="card" style="left:${cx - w / 2}px;top:${cy - PH / 2}px;width:${w}px;--c:${colorOf(id)};--stripe:${stripeOf(id)}"
+      tabindex="0" role="button" onclick="show('${id}')" onkeydown="if(event.key==='Enter')show('${id}')">
+      <span class="card-ic"></span><b>${esc(D[id].title)}</b><small>${SHORT[id]}</small>
+    </div>`;
+  });
+  document.getElementById('tree').innerHTML = h;
+  document.getElementById('legend').innerHTML = PATHS.filter(p => p.legend !== false).map((p, i) =>
+    `<div class="legend-i" style="--lc:${PCOL[p.id].text};--lg:${PCOL[p.id].legend || PCOL[p.id].text}">
+      <div class="legend-line"><span class="legend-n">0${i + 1}</span><i></i><em></em></div>
+      <b>${p.name}</b><span class="legend-d">${p.tagline}</span>
+    </div>`).join('');
+}
+
+const rowName = id => [...new Set(pathsOf(id).map(p => p.name))].join(' · ') || 'Punto de partida';
+
+const SKILL_LVL = {'Bajo':1, 'Bajo / Medio':2, 'Medio':3, 'Medio / Alto':4, 'Alto':5};
 const ov = document.getElementById('overlay');
 const modal = document.getElementById('modal');
-let curId = null;
-
 function show(id) {
-  curId = id;
   const r = D[id];
-  modal.className = 'modal c-' + r.type;
-  document.getElementById('m-badge').textContent = r.badge;
+  modal.style.setProperty('--c', colorOf(id));
+  document.getElementById('m-badge').textContent = rowName(id);
   document.getElementById('m-title').textContent = r.title;
-  document.getElementById('m-subtitle').textContent = r.subtitle;
-  document.getElementById('m-tag').textContent = r.tag;
-  document.getElementById('p-resp').innerHTML = r.resp.map(i => `<li>${i}</li>`).join('');
-  document.getElementById('p-comp').innerHTML = r.comp.map(i => `<span class="comp-tag">${i}</span>`).join('');
-  document.getElementById('p-tech').innerHTML = r.tech.map(([n,l]) => `<div class="skill-item"><span>${n}</span><span class="skill-lvl">${l}</span></div>`).join('');
+  document.getElementById('m-subtitle').textContent = r.subtitle + ' · ' + (r.peopleNote || (r.people ? 'Con personas a cargo' : 'Sin personas a cargo'));
+  document.getElementById('m-chips').innerHTML = r.lt.map(k => chip(k)).join('');
+  document.getElementById('m-purpose').textContent = r.purpose;
+  document.getElementById('m-resp').innerHTML = r.resp.map(i => `<li>${esc(i)}</li>`).join('');
+  document.getElementById('m-not-wrap').style.display = r.not ? '' : 'none';
+  document.getElementById('m-not').innerHTML = (r.not || []).map(i => `<li>${esc(i)}</li>`).join('');
+  document.getElementById('m-not-note').textContent = r.notNote || '';
+  document.getElementById('m-rp-wrap').style.display = r.respPeople ? '' : 'none';
+  document.getElementById('m-rp-intro').textContent = r.respPeople ? r.respPeople.intro : '';
+  document.getElementById('m-rp').innerHTML = r.respPeople ? r.respPeople.items.map(i => `<li>${esc(i)}</li>`).join('') : '';
+  document.getElementById('m-comp2-wrap').style.display = r.compPeople ? '' : 'none';
+  document.getElementById('m-comp2').innerHTML = (r.compPeople || []).map(i => `<span class="comp-tag">${esc(i)}</span>`).join('');
+  document.getElementById('m-comp').innerHTML = r.comp.map(i => `<span class="comp-tag">${esc(i)}</span>`).join('');
+  document.getElementById('m-tech').innerHTML = r.tech.map(([n, l]) => `<div class="skill"><span>${esc(n)}</span>
+    <span class="skill-bar" aria-hidden="true">${[1, 2, 3, 4, 5].map(k => `<i${k <= SKILL_LVL[l] ? ' class="on"' : ''}></i>`).join('')}</span>
+    <span class="skill-lvl">${l}</span></div>`).join('');
+  const next = id === 'analista'
+    ? [...new Set(PATHS.map(p => p.steps[0]))]
+    : [...new Set(pathsOf(id).map(p => p.steps[p.steps.indexOf(id) + 1]).filter(Boolean))];
+  document.getElementById('m-next-wrap').style.display = next.length ? '' : 'none';
+  const notes = r.nextNote || {};
+  document.getElementById('m-next').classList.toggle('with-notes', next.some(n => notes[n]));
+  document.getElementById('m-next').innerHTML = next.map(n => `<div class="m-next-i"><button onclick="show('${n}')">${esc(D[n].title)} →</button>${notes[n] ? `<p>${esc(notes[n])}</p>` : ''}</div>`).join('');
   ov.classList.add('open');
+  modal.querySelector('.m-body').scrollTop = 0;
 }
-
-function modalStep(dir) {
-  const idx = (ROLES.indexOf(curId) + dir + ROLES.length) % ROLES.length;
-  show(ROLES[idx]);
-}
-
 function closeM() { ov.classList.remove('open'); }
-function closeOv(e) { if (e.target === ov) closeM(); }
-document.addEventListener('keydown', e => {
-  if (!ov.classList.contains('open')) return;
-  if (e.key === 'Escape') closeM();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeM(); });
 
-const SCENE_W = 1240, SCENE_H = 690;
-const wrap = document.querySelector('.mtn-wrap');
-const scene = document.querySelector('.mtn-scene');
-function scaleScene() {
-  const scale = Math.min(1, wrap.clientWidth / SCENE_W);
-  scene.style.transform = 'scale(' + scale + ')';
-  wrap.style.paddingBottom = Math.round(SCENE_H * scale) / (wrap.clientWidth || 1) * 100 + '%';
+const STAGE_W = 1240;
+const wrap = document.querySelector('.wrap');
+const stage = document.getElementById('stage');
+function scale() {
+  const s = Math.min(1, wrap.clientWidth / STAGE_W);
+  stage.style.transform = `scale(${s})`;
+  wrap.style.height = stage.offsetHeight * s + 'px';
 }
-scaleScene();
-window.addEventListener('resize', scaleScene);
+
+renderTree();
+scale();
+document.fonts.ready.then(scale);
+new ResizeObserver(scale).observe(wrap);
 </script>
 </body>
 </html>
