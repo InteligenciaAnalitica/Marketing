@@ -281,7 +281,7 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
   function place(id){
     if (!wideMQ.matches) { pop.style.left = pop.style.top = pop.style.width = ''; return; }
     var mk = document.querySelector('.mk[data-id="' + id + '"]');
-    var west = mk.getAttribute('data-w') === '1';
+    var west = false;   // todas las fichas se abren a la derecha del mapa, a la altura de la provincia (así nunca quedan tapadas por el título o el filtro)
     var sb = stage.getBoundingClientRect(), mb = mapcol.getBoundingClientRect(), cb = mk.querySelector('.mk-c').getBoundingClientRect();
     if (id === 'es') { var eb = mk.getBoundingClientRect(); pop.style.width = Math.min(400, Math.max(260, sb.right - eb.left - 8)) + 'px'; pop.style.left = Math.max(0, Math.min(eb.left - sb.left, sb.width - pop.offsetWidth)) + 'px'; pop.style.top = (eb.bottom - sb.top + 36) + 'px'; return; }
     // el ancho de la tarjeta se adapta al espacio libre a cada lado del mapa
