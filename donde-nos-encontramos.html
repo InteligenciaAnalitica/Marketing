@@ -25,7 +25,9 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
 .hint{display:inline-block;margin-top:12px;padding:5px 14px;border:1px solid var(--ia-navy);text-wrap:balance;border-radius:14px;font:600 11px/1.3 'Asap Condensed','Rubik',sans-serif;text-transform:uppercase;letter-spacing:.6px;color:var(--ia-navy);background:var(--bg-surface);}
 /* desde 900 px (incluye el recuadro de SharePoint, ~1.070 px): título a la izquierda y nombres al costado del mapa */
 @media (min-width:900px){
-  .intro{position:absolute;left:0;top:12px;width:250px;text-align:left;padding:20px 0 0;z-index:1;}
+  .intro{position:absolute;left:4px;top:12px;width:250px;text-align:left;padding:30px 0 0;z-index:1;}
+  .intro p{margin-top:12px;}
+  .hint{margin-top:16px;}
   .intro h1{font-size:38px;}
   .intro i{display:block;}
   .intro p{margin-left:0;}
@@ -38,7 +40,7 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
 /* escenario: el mapa va al centro y los nombres aparecen al lado de la provincia elegida */
 .stage{position:relative;}
 .mapcol{width:440px;max-width:100%;margin:0 auto;}
-@media (min-width:900px){ .mapcol{width:450px;margin:0 auto 0 260px;} .wrap{padding:0 12px 0;} }
+@media (min-width:900px){ .mapcol{width:430px;margin:0 auto 0 calc((100% - 430px) / 2);} .wrap{padding:0 12px 0;} }
 @media (min-width:1261px){ .mapcol{width:440px;margin:0 auto 0 360px;} .wrap{padding:0 24px 40px;} }
 .mapbody{position:relative;width:100%;aspect-ratio:430/920;}
 .mapsvg{position:absolute;inset:0;width:100%;height:100%;display:block;}
@@ -159,21 +161,24 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
 .hqv.cw .loc-ofi{margin:0 0 0 10px;flex-basis:auto;padding-left:10px;}
 .hqv.cw .loc-ofi b{font-size:15px;}
 /* filtro por proyecto: chico, bajo el título; quien no es del equipo queda atenuado */
-.pf{margin-top:18px;max-width:230px;}
+/* marco del filtro: tarjeta blanca de esquinas redondeadas, sombra suave y barra azul institucional a la izquierda */
+.pf{margin-top:20px;max-width:246px;padding:12px 12px 12px 14px;background:#fff;border:1px solid #DCE6F1;border-left:4px solid var(--ia-navy);border-radius:12px;box-shadow:0 6px 16px -8px rgba(15,31,51,.28);}
 .intro .pf{text-align:left;}
-.pf-lbl{display:block;margin-bottom:6px;font:700 10px/1 'Asap Condensed','Rubik',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6B7C93;}
-.pf-logo{width:40px;height:20px;display:flex;align-items:center;justify-content:center;flex:none;}
-.pf-logo img{max-width:40px;max-height:18px;width:auto;height:auto;object-fit:contain;}
-.pf-logo .pf-txt{font:700 8.5px/1 'Asap Condensed','Rubik',sans-serif;letter-spacing:.1em;color:#fff;background:var(--acc,#2070cc);padding:3px 5px;border-radius:4px;}
+.pf-lbl{display:block;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--line-soft);font:700 10.5px/1 'Asap Condensed','Rubik',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ia-navy);}
+/* todos los logos en el mismo recuadro, del mismo tamaño, con el logo centrado y contenido adentro */
+.pf-logo{width:46px;height:24px;display:flex;align-items:center;justify-content:center;flex:none;padding:2px 4px;background:#fff;border:1px solid #DCE6F1;border-radius:6px;overflow:hidden;}
+.pf-logo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;}
+.pf-logo .pf-txt{font:700 8px/1 'Asap Condensed','Rubik',sans-serif;letter-spacing:.08em;color:var(--acc,#2070cc);}
 .pf-logo.all{color:var(--ia-navy);}
-.pf-list{margin:0;padding:5px;list-style:none;background:#fff;border:1px solid #DCE6F1;border-radius:12px;}
-.pf-opt{display:flex;align-items:center;gap:10px;width:100%;padding:3px 8px;border:0;border-radius:8px;background:none;cursor:pointer;font:500 12.5px/1.2 'Rubik',system-ui,sans-serif;color:#2D3748;text-align:left;}
+.pf-logo.all svg{width:14px;height:14px;display:block;}
+.pf-list{margin:0 -4px;padding:0;list-style:none;}
+.pf-opt{display:flex;align-items:center;gap:10px;width:100%;padding:2px 8px;border:0;border-radius:8px;background:none;cursor:pointer;font:500 12.5px/1.2 'Rubik',system-ui,sans-serif;color:#2D3748;text-align:left;}
 .pf-opt:hover{background:#EFF6FC;}
 .pf-opt:focus-visible{outline:2px solid var(--ia-sky);outline-offset:1px;}
 .pf-opt[aria-checked="true"]{background:#E3EEF9;color:var(--ia-navy);font-weight:600;}
 .pf-sep{height:1px;background:var(--line-soft);margin:3px 6px;}
-.pf-sum{display:block;margin-top:8px;font:500 11.5px/1.3 'Rubik',system-ui,sans-serif;color:#5a6a80;}
-.pf-sum b{color:var(--ia-navy);font-weight:600;}
+.pf-sum{display:inline-block;margin-top:10px;padding:4px 10px;border-radius:999px;background:#EAF1F9;font:600 11px/1.2 'Rubik',system-ui,sans-serif;color:#5a6a80;}
+.pf-sum b{color:var(--ia-navy);font-weight:700;}
 .ppl li.off{opacity:.25;filter:grayscale(1);}
 .p.has.off{fill:#e9eff7;}
 .mk.off,.has-sel .mk.off:not(.sel){opacity:.3;}
@@ -191,11 +196,12 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
   .pop .loc.xl .sub{gap:8px 14px;margin-top:8px;padding-top:8px;}
   .pop .loc.xl .sub .ppl li{width:54px;}
   /* las fichas que se abren a la izquierda (debajo del título y del filtro) también se compactan, para entrar en el recuadro */
-  .pop .hqv.cw .ofi{height:56px;}
-  .pop .hqv.cw{margin:0 0 4px;}
-  .pop .loc:not(.xl) .ppl{gap:6px 4px;padding-top:2px;}
-  .pop .loc:not(.xl) .ph{width:42px;height:42px;}
-  .pop .loc:not(.xl) .nm{margin-top:4px;}
+  .pop .hqv.cw .ofi{height:46px;}
+  .pop .hqv.cw{margin:0 0 2px;}
+  .pop .loc:not(.xl) .ppl{gap:4px 4px;padding-top:2px;}
+  .pop .loc:not(.xl) .ph{width:38px;height:38px;}
+  .pop .loc:not(.xl) .nm{margin-top:3px;}
+  .pop .loc:not(.xl) header{margin-bottom:4px;}
 }
 </style>
 </head>
@@ -359,14 +365,14 @@ body{background:radial-gradient(#DCE6F1 1px,transparent 1.2px) 0 0/22px 22px var
       $all('#cards .loc').forEach(function(card){
         var zid = card.getAttribute('data-id'), n = 0, todos = 0;
         card.querySelectorAll('li').forEach(function(li){ var nm = li.querySelector('.nm'); if (!nm) return; todos++; var on = !p || eq[nm.textContent]; li.classList.toggle('off', !on); if (on) n++; });
-        var cuenta = p ? n : todos, vacia = !!p && n === 0; total += p ? n : 0;
+        var cuenta = p ? n : todos, vacia = !!p && n === 0; total += cuenta;
         var c = card.querySelector('.n'); if (c) c.textContent = cuenta;
         var mk = document.querySelector('.mk[data-id="' + zid + '"]');
         if (mk) { var mc = mk.querySelector('.mk-c'), z = tamano(cuenta); mc.textContent = cuenta; mc.style.width = mc.style.height = z.t.toFixed(1) + 'px'; mc.style.fontSize = z.f + 'px';
           mk.setAttribute('aria-label', (card.querySelector('h2') || {}).textContent + ': ' + cuenta + (cuenta === 1 ? ' persona' : ' personas')); }
         $all('.p[data-id="' + zid + '"],.mk[data-id="' + zid + '"]').forEach(function(e){ e.classList.toggle('off', vacia); });
       });
-      pfSum.innerHTML = p ? '<b>' + total + '</b> ' + (total === 1 ? 'persona' : 'personas') + ' en el equipo' : '';
+      pfSum.innerHTML = '<b>' + total + '</b> ' + (total === 1 ? 'persona' : 'personas') + (p ? ' en el equipo' : ' en el mapa');
       pinned = null; hide();
     }
     pfList.addEventListener('click', function(e){ var b = e.target.closest('.pf-opt'); if (!b) return; var id = b.getAttribute('data-id'); aplicar(b.getAttribute('aria-checked') === 'true' ? '' : id); });
